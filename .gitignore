@@ -1,4 +1,3 @@
-
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
@@ -7,3 +6,11 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+
+###> IDE & tools
+/.idea/
+###< IDE & tools
+
+###> BTMV
+btmv.json
+###< BTMV
