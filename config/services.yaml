@@ -28,5 +28,28 @@ services:
     tags:
       - { name: "console.command", command: "config:set" }
 
+  Finder:
+    class: Symfony\Component\Finder\Finder
+
   JsonHelper:
     class: Btmv\Utils\Json\JsonHelper
+
+  MechFactory:
+    class: Btmv\Domain\Mech\MechFactory
+    arguments:
+      - '@JsonHelper'
+
+  MechListCommand:
+    class: Btmv\Domain\Mech\MechListCommand
+    arguments:
+      - '@ConfigService'
+      - '@MechService'
+    tags:
+      - { name: "console.command", command: "mech:list" }
+
+  MechService:
+    class: Btmv\Domain\Mech\MechService
+    arguments:
+      - '@Finder'
+      - '@MechFactory'
+
