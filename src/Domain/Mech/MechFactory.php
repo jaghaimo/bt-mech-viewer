@@ -32,8 +32,8 @@ class MechFactory
         $fileName = $fileInfo->getRealPath();
 
         try {
-            $mechObject = $this->jsonHelper->read($fileName);
-            $mechEntity = MechEntity::fromObject($mechObject);
+            $mechArray = $this->jsonHelper->read($fileName);
+            $mechEntity = MechEntity::fromArray($mechArray);
 
             return $mechEntity;
         } catch (\Throwable $throwable) {

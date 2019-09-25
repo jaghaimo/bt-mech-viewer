@@ -2,6 +2,7 @@
 
 namespace Btmv\Domain\Mech;
 
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -29,17 +30,9 @@ class MechListCommand extends MechCommand
         $config = $this->getConfig();
         $mechs = $this->mechService->findMechs($config->getModsDirectory());
 
-        // TODO: Make MechListTableView and use here
-        foreach ($mechs->getMechs() as $mech) {
-            $mechRow = sprintf(
-                "%10s %3d %s %s",
-                $mech->getClass(),
-                $mech->getTonnage(),
-                $mech->getName(),
-                $mech->getVariant()
-            );
-            $output->writeln($mechRow);
-        }
+        $table = new MechTableView($output);
+        $table->setMechs($mechs);
+        $table->render();
 
         return 0;
     }

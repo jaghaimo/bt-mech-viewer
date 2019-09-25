@@ -77,7 +77,7 @@ class MechEntity
      *
      * @throws MechException
      */
-    public static function fromObject(array $array)
+    public static function fromArray(array $array): MechEntity
     {
         try {
             $arrayLower = array_change_key_case($array, CASE_LOWER);
