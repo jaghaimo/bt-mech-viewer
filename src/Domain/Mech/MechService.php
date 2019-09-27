@@ -6,7 +6,7 @@ use Symfony\Component\Finder\Finder;
 
 class MechService
 {
-    const MECHDEF_PATTERN = 'chassisdef_*.json';
+    const MECHDEF_PATTERN = '/^chassisdef\_%s\_%s\.json$/i';
 
     /**
      * @var Finder
@@ -30,13 +30,15 @@ class MechService
 
     /**
      * @param string $directory
+     * @param string $nameFilter
+     * @param string $variantFilter
      *
      * @return MechCollection
      */
-    public function findMechs(string $directory): MechCollection
+    public function findMechs(string $directory, string $nameFilter, string $variantFilter): MechCollection
     {
         $mechs = [];
-        $this->configureFinder($directory);
+        $this->configureFinder($directory, $nameFilter, $variantFilter);
 
         foreach ($this->finder->getIterator() as $fileInfo) {
             $mechs[] = $this->mechFactory->get($fileInfo);
@@ -47,12 +49,30 @@ class MechService
 
     /**
      * @param string $directory
+     * @param string $nameFilter
+     * @param string $variantFilter
      */
-    private function configureFinder(string $directory)
+    private function configureFinder(string $directory, string $nameFilter, string $variantFilter)
     {
+        $name = sprintf(
+            self::MECHDEF_PATTERN,
+            $this->normalize($nameFilter),
+            $this->normalize($variantFilter)
+        );
+
         $this->finder
             ->files()
             ->in($directory)
-            ->name(self::MECHDEF_PATTERN);
+            ->name($name);
+    }
+
+    /**
+     * @param string $filter
+     *
+     * @return string
+     */
+    private function normalize(string $filter): string
+    {
+        return strtr($filter, ['*' => '.+']);
     }
 }

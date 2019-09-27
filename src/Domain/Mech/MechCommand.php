@@ -5,6 +5,8 @@ namespace Btmv\Domain\Mech;
 use Btmv\Domain\Config\ConfigEntity;
 use Btmv\Domain\Config\ConfigService;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 
 abstract class MechCommand extends Command
 {
@@ -27,6 +29,13 @@ abstract class MechCommand extends Command
         $this->configService = $configService;
         $this->mechService = $mechService;
         parent::__construct();
+    }
+
+    protected function configure()
+    {
+        $this
+            ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'Limit output to given mech name', '*')
+            ->addOption('variant', null, InputOption::VALUE_OPTIONAL, 'Limit output to given mech variant', '*');
     }
 
     /**
