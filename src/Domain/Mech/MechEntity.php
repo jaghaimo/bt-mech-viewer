@@ -25,17 +25,24 @@ class MechEntity
     private $variant;
 
     /**
+     * @var MechLocations
+     */
+    private $locations;
+
+    /**
      * @param string $class
      * @param string $name
      * @param int $tonnage
      * @param string $variant
+     * @param MechLocations $locations
      */
-    public function __construct(string $class, string $name, int $tonnage, string $variant)
+    public function __construct(string $class, string $name, int $tonnage, string $variant, MechLocations $locations)
     {
         $this->class = $class;
         $this->name = $name;
         $this->tonnage = $tonnage;
         $this->variant = $variant;
+        $this->locations = $locations;
     }
 
     /**
@@ -71,6 +78,16 @@ class MechEntity
     }
 
     /**
+     * @param string $hardpointType
+     *
+     * @return int
+     */
+    public function getTotalHardpoints(string $hardpointType): int
+    {
+        return $this->locations->getTotalHardpoints($hardpointType);
+    }
+
+    /**
      * @param array $array
      *
      * @return MechEntity
@@ -86,9 +103,12 @@ class MechEntity
             return new self(
                 ucfirst($arrayLower['weightclass']),
                 ucfirst($arrayDescription['name']),
-                (int)$arrayLower['tonnage'],
-                strtoupper($arrayLower['variantname'])
+                (int) $arrayLower['tonnage'],
+                strtoupper($arrayLower['variantname']),
+                MechLocations::fromArray($arrayLower['locations'])
             );
+        } catch (MechException $mechException) {
+            throw $mechException;
         } catch (\Throwable $throwable) {
             throw MechException::missingProperty($throwable);
         }

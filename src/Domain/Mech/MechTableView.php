@@ -11,14 +11,18 @@ class MechTableView extends Table
      */
     public function setMechs(MechCollection $mechs)
     {
-        $this->setHeaders(['Class', 'Tonnage', 'Name', 'Variant']);
+        $this->setHeaders(['Class', 'Tonnage', 'Name', 'Variant', 'B', 'E', 'M', 'S']);
 
         foreach ($mechs->getMechs() as $mech) {
             $this->addRow([
                 $mech->getClass(),
                 $mech->getTonnage(),
                 $mech->getName(),
-                $mech->getVariant()
+                $mech->getVariant(),
+                $mech->getTotalHardpoints(MechHardpoints::HARDPOINT_BALLISTIC),
+                $mech->getTotalHardpoints(MechHardpoints::HARDPOINT_ENERGY),
+                $mech->getTotalHardpoints(MechHardpoints::HARDPOINT_MISSILE),
+                $mech->getTotalHardpoints(MechHardpoints::HARDPOINT_ANTI_PERSONNEL)
             ]);
         }
     }
