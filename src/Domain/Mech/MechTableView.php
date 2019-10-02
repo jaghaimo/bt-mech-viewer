@@ -19,11 +19,24 @@ class MechTableView extends Table
                 $mech->getTonnage(),
                 $mech->getName(),
                 $mech->getVariant(),
-                $mech->getTotalHardpoints(MechHardpoints::HARDPOINT_BALLISTIC),
-                $mech->getTotalHardpoints(MechHardpoints::HARDPOINT_ENERGY),
-                $mech->getTotalHardpoints(MechHardpoints::HARDPOINT_MISSILE),
-                $mech->getTotalHardpoints(MechHardpoints::HARDPOINT_ANTI_PERSONNEL)
+                $this->getTotalHardpoints($mech, MechHardpoints::HARDPOINT_BALLISTIC),
+                $this->getTotalHardpoints($mech, MechHardpoints::HARDPOINT_ENERGY),
+                $this->getTotalHardpoints($mech, MechHardpoints::HARDPOINT_MISSILE),
+                $this->getTotalHardpoints($mech, MechHardpoints::HARDPOINT_ANTI_PERSONNEL)
             ]);
         }
+    }
+
+    /**
+     * @param MechEntity $mech
+     * @param string $hardpointType
+     *
+     * @return int
+     */
+    private function getTotalHardpoints(MechEntity $mech, string $hardpointType): int
+    {
+        $hardpoints = $mech->getTotalHardpoints($hardpointType);
+
+        return $hardpoints < 0 ? 12 : $hardpoints;
     }
 }

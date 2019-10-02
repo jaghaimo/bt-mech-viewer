@@ -60,6 +60,10 @@ class MechHardpoints
      */
     public function getHardpoints(string $hardpointType): int
     {
+        if ($this->isOmni) {
+            return -1;
+        }
+
         switch ($hardpointType) {
             case self::HARDPOINT_ANTI_PERSONNEL:
                 return $this->antiPersonnel;
@@ -77,7 +81,7 @@ class MechHardpoints
     /**
      * @param bool $isOmni
      */
-    public function setOmni(bool $isOmni)
+    public function setOmni(bool $isOmni): void
     {
         $this->isOmni = $isOmni;
     }
