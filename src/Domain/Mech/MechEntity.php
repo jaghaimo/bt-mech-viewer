@@ -7,7 +7,17 @@ class MechEntity
     /**
      * @var string
      */
+    private $bundle;
+
+    /**
+     * @var string
+     */
     private $class;
+
+    /**
+     * @var MechLocations
+     */
+    private $locations;
 
     /**
      * @var string
@@ -25,24 +35,64 @@ class MechEntity
     private $variant;
 
     /**
-     * @var MechLocations
-     */
-    private $locations;
-
-    /**
+     * @param string $bundle
      * @param string $class
      * @param string $name
      * @param int $tonnage
      * @param string $variant
      * @param MechLocations $locations
      */
-    public function __construct(string $class, string $name, int $tonnage, string $variant, MechLocations $locations)
-    {
+    public function __construct(
+        string $bundle,
+        string $class,
+        string $name,
+        int $tonnage,
+        string $variant,
+        MechLocations $locations
+    ) {
+        $this->bundle = $bundle;
         $this->class = $class;
         $this->name = $name;
         $this->tonnage = $tonnage;
         $this->variant = $variant;
         $this->locations = $locations;
+    }
+
+    /**
+     * @param array $array
+     * @param string $bundle
+     *
+     * @return MechEntity
+     *
+     * @throws MechException
+     */
+    public static function fromArray(array $array, string $bundle): MechEntity
+    {
+        try {
+            $arrayLower = array_change_key_case($array, CASE_LOWER);
+            $arrayDescription = array_change_key_case($arrayLower['description'], CASE_LOWER);
+
+            return new self(
+                $bundle,
+                ucfirst($arrayLower['weightclass']),
+                ucfirst($arrayDescription['name']),
+                (int) $arrayLower['tonnage'],
+                strtoupper($arrayLower['variantname']),
+                MechLocations::fromArray($arrayLower['locations'])
+            );
+        } catch (MechException $mechException) {
+            throw $mechException;
+        } catch (\Throwable $throwable) {
+            throw MechException::missingProperty($throwable);
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getBundle(): string
+    {
+        return $this->bundle;
     }
 
     /**
@@ -70,14 +120,6 @@ class MechEntity
     }
 
     /**
-     * @return string
-     */
-    public function getVariant(): string
-    {
-        return $this->variant;
-    }
-
-    /**
      * @param string $hardpointType
      *
      * @return int
@@ -88,29 +130,10 @@ class MechEntity
     }
 
     /**
-     * @param array $array
-     *
-     * @return MechEntity
-     *
-     * @throws MechException
+     * @return string
      */
-    public static function fromArray(array $array): MechEntity
+    public function getVariant(): string
     {
-        try {
-            $arrayLower = array_change_key_case($array, CASE_LOWER);
-            $arrayDescription = array_change_key_case($arrayLower['description'], CASE_LOWER);
-
-            return new self(
-                ucfirst($arrayLower['weightclass']),
-                ucfirst($arrayDescription['name']),
-                (int) $arrayLower['tonnage'],
-                strtoupper($arrayLower['variantname']),
-                MechLocations::fromArray($arrayLower['locations'])
-            );
-        } catch (MechException $mechException) {
-            throw $mechException;
-        } catch (\Throwable $throwable) {
-            throw MechException::missingProperty($throwable);
-        }
+        return $this->variant;
     }
 }

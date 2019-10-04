@@ -7,6 +7,8 @@ use Symfony\Component\Finder\SplFileInfo;
 
 class MechFactory
 {
+    const BUNDLE_OFFSET = 3;
+
     /**
      * @var JsonHelper
      */
@@ -29,15 +31,18 @@ class MechFactory
      */
     public function get(SplFileInfo $fileInfo)
     {
-        $fileName = $fileInfo->getRealPath();
+        $chassisDef = $fileInfo->getRealPath();
+        $chassisDefChunks = explode(DIRECTORY_SEPARATOR, $chassisDef);
+        $totalChunks = count($chassisDefChunks);
+        $bundle = $chassisDefChunks[$totalChunks - self::BUNDLE_OFFSET];
 
         try {
-            $mechArray = $this->jsonHelper->read($fileName);
-            $mechEntity = MechEntity::fromArray($mechArray);
+            $mechArray = $this->jsonHelper->read($chassisDef);
+            $mechEntity = MechEntity::fromArray($mechArray, $bundle);
 
             return $mechEntity;
         } catch (\Throwable $throwable) {
-            throw MechFactoryException::brokenMechdef($fileName, $throwable);
+            throw MechFactoryException::brokenMechdef($chassisDef, $throwable);
         }
     }
 }
