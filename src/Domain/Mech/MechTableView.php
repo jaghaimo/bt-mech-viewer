@@ -11,7 +11,7 @@ class MechTableView extends Table
      */
     public function setMechs(MechCollection $mechs)
     {
-        $this->setHeaders(['Class', 'Tonnage', 'Name', 'Variant', 'B', 'E', 'M', 'S', 'Bundle']);
+        $this->setHeaders(['Class', 'Tonnage', 'Name', 'Variant', 'Cost', 'B', 'E', 'M', 'S', 'Bundle']);
         $allMechs = $mechs->getMechs();
         $allCount = count($allMechs);
         $mechText = $allCount === 1 ? 'mech' : 'mechs';
@@ -22,6 +22,7 @@ class MechTableView extends Table
                 $mech->getTonnage(),
                 $mech->getName(),
                 $mech->getVariant(),
+                number_format($mech->getCost()),
                 $this->getTotalHardpoints($mech, MechHardpoints::HARDPOINT_BALLISTIC),
                 $this->getTotalHardpoints($mech, MechHardpoints::HARDPOINT_ENERGY),
                 $this->getTotalHardpoints($mech, MechHardpoints::HARDPOINT_MISSILE),

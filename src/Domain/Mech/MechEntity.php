@@ -10,6 +10,11 @@ class MechEntity
     private $bundle;
 
     /**
+     * @var int
+     */
+    private $cost;
+
+    /**
      * @var string
      */
     private $class;
@@ -38,6 +43,7 @@ class MechEntity
      * @param string $bundle
      * @param string $class
      * @param string $name
+     * @param int $cost
      * @param int $tonnage
      * @param string $variant
      * @param MechLocations $locations
@@ -46,6 +52,7 @@ class MechEntity
         string $bundle,
         string $class,
         string $name,
+        int $cost,
         int $tonnage,
         string $variant,
         MechLocations $locations
@@ -53,6 +60,7 @@ class MechEntity
         $this->bundle = $bundle;
         $this->class = $class;
         $this->name = $name;
+        $this->cost = $cost;
         $this->tonnage = $tonnage;
         $this->variant = $variant;
         $this->locations = $locations;
@@ -76,6 +84,7 @@ class MechEntity
                 $bundle,
                 ucfirst($arrayLower['weightclass']),
                 ucfirst($arrayDescription['name']),
+                (int) $arrayDescription['cost'],
                 (int) $arrayLower['tonnage'],
                 strtoupper($arrayLower['variantname']),
                 MechLocations::fromArray($arrayLower['locations'])
@@ -93,6 +102,14 @@ class MechEntity
     public function getBundle(): string
     {
         return $this->bundle;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCost(): int
+    {
+        return $this->cost;
     }
 
     /**
