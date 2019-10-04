@@ -1,3 +1,10 @@
 {
-  "modsDirectory": "<path to your Mods directory>"
+  "includeDirectories": [
+    "absoluteDirectoryToInclude",
+    "anotherAbsoluteDiretoryToInclude"
+  ],
+  "excludeDirectories": [
+    "relativeDirectoryInIncludeDirectories",
+    "anotherDirectoryInIncludeDirectories"
+  ]
 }

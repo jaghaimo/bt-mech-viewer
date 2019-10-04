@@ -6,7 +6,7 @@ use Symfony\Component\Finder\Finder;
 
 class MechService
 {
-    const MECHDEF_PATTERN = '/^chassisdef\_%s\_%s\.json$/i';
+    const MECHDEF_PATTERN = '/^chassisdef\_%s\.json$/i';
 
     /**
      * @var Finder
@@ -29,16 +29,16 @@ class MechService
     }
 
     /**
-     * @param string $directory
-     * @param string $nameFilter
-     * @param string $variantFilter
+     * @param string[] $includeDirs
+     * @param string[] $excludeDirs
+     * @param string $filename
      *
      * @return MechCollection
      */
-    public function findMechs(string $directory, string $nameFilter, string $variantFilter): MechCollection
+    public function findMechs(array $includeDirs, array $excludeDirs, string $filename): MechCollection
     {
         $mechs = [];
-        $this->configureFinder($directory, $nameFilter, $variantFilter);
+        $this->configureFinder($includeDirs, $excludeDirs, $filename);
 
         foreach ($this->finder->getIterator() as $fileInfo) {
             $mechs[] = $this->mechFactory->get($fileInfo);
@@ -48,21 +48,21 @@ class MechService
     }
 
     /**
-     * @param string $directory
-     * @param string $nameFilter
-     * @param string $variantFilter
+     * @param string[] $includeDirs
+     * @param string[] $excludeDirs
+     * @param string $filename
      */
-    private function configureFinder(string $directory, string $nameFilter, string $variantFilter)
+    private function configureFinder(array  $includeDirs, array $excludeDirs, string $filename)
     {
         $name = sprintf(
             self::MECHDEF_PATTERN,
-            $this->normalize($nameFilter),
-            $this->normalize($variantFilter)
+            $this->normalize($filename)
         );
 
         $this->finder
             ->files()
-            ->in($directory)
+            ->in($includeDirs)
+            ->exclude($excludeDirs)
             ->name($name);
     }
 

@@ -5,36 +5,54 @@ namespace Btmv\Domain\Config;
 class ConfigEntity
 {
     /**
-     * @var string
+     * @var string[]
      */
-    private $modsDirectory;
+    private $excludeDirectories;
 
     /**
-     * @param string $modsDirectory
+     * @var string[]
      */
-    public function __construct(string $modsDirectory)
+    private $includeDirectories;
+
+    /**
+     * @param string[] $includeDirectories
+     * @param string[] $excludeDirectories
+     */
+    public function __construct(array $includeDirectories, array $excludeDirectories)
     {
-        $this->modsDirectory = $modsDirectory;
+        $this->includeDirectories = $includeDirectories;
+        $this->excludeDirectories = $excludeDirectories;
     }
 
     /**
-     * @return string
+     * @return string[]
      */
-    public function getModsDirectory(): string
+    public function getExcludeDirectories(): array
     {
-        return $this->modsDirectory;
+        return $this->excludeDirectories;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getIncludeDirectories(): array
+    {
+        return $this->includeDirectories;
     }
 
     /**
      * @param array $array
      *
      * @return ConfigEntity
+     *
+     * @throws ConfigException
      */
     public static function fromArray(array $array)
     {
         try {
             return new self(
-                $array['modsDirectory']
+                $array['includeDirectories'],
+                $array['excludeDirectories']
             );
         } catch (\Throwable $throwable) {
             throw ConfigException::missingProperty($throwable);

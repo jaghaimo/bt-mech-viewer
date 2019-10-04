@@ -29,10 +29,10 @@ class MechListCommand extends MechCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $config = $this->getConfig();
-        $modsDirectory = $config->getModsDirectory();
-        $nameFilter = $input->getOption('name');
-        $variantFilter = $input->getOption('variant');
-        $mechs = $this->mechService->findMechs($modsDirectory, $nameFilter, $variantFilter);
+        $modsDirectory = $config->getIncludeDirectories();
+        $excludeDirs = $config->getExcludeDirectories();
+        $filename = $input->getOption('filename');
+        $mechs = $this->mechService->findMechs($modsDirectory, $excludeDirs, $filename);
 
         $table = new MechTableView($output);
         $table->setMechs($mechs);

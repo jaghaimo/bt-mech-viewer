@@ -4,9 +4,7 @@ namespace Btmv\Domain\Config;
 
 use Btmv\Utils\Json\JsonHelper;
 use Btmv\Utils\Json\JsonNotDecodedException;
-use Btmv\Utils\Json\JsonNotEncodedException;
 use Btmv\Utils\Json\JsonNotReadException;
-use Btmv\Utils\Json\JsonNotWrittenException;
 
 class ConfigService
 {
@@ -34,51 +32,15 @@ class ConfigService
 
     /**
      * @return ConfigEntity
+     *
+     * @throws ConfigException
      */
     public function getConfig(): ConfigEntity
     {
-        $configObject = $this->readConfig();
-
-        return ConfigEntity::fromArray($configObject);
-    }
-
-    /**
-     * @param string $key
-     * @param string $value
-     *
-     * @return string
-     */
-    public function setConfig(string $key, string $value): string
-    {
-        $configArray = $this->readConfig();
-
-        if (!array_key_exists($key, $configArray)) {
-            throw ConfigException::missingProperty($key);
-        }
-
-        $previousValue = $configArray[$key];
-        $configArray[$key] = $value;
-
         try {
-            $this->jsonHelper->write($this->configFile, $configArray);
-        } catch (JsonNotEncodedException $exception) {
-            throw ConfigException::couldNotEncode($exception);
-        } catch (JsonNotWrittenException $exception) {
-            throw ConfigException::couldNotWrite($exception);
-        }
+            $configArray = $this->jsonHelper->read($this->configFile);
 
-        return $previousValue;
-    }
-
-    /**
-     * @return array
-     */
-    private function readConfig(): array
-    {
-        try {
-            $configObject = $this->jsonHelper->read($this->configFile);
-
-            return $configObject;
+            return ConfigEntity::fromArray($configArray);
         } catch (JsonNotReadException $exception) {
             throw ConfigException::couldNotRead($exception);
         } catch (JsonNotDecodedException $exception) {

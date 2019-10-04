@@ -10,14 +10,14 @@ use Symfony\Component\Console\Input\InputOption;
 abstract class MechCommand extends Command
 {
     /**
-     * @var ConfigService
-     */
-    private $configService;
-
-    /**
      * @var MechService
      */
     protected $mechService;
+
+    /**
+     * @var ConfigService
+     */
+    private $configService;
 
     /**
      * @param ConfigService $configService
@@ -33,8 +33,7 @@ abstract class MechCommand extends Command
     protected function configure()
     {
         $this
-            ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'Limit output to given mech name', '*')
-            ->addOption('variant', null, InputOption::VALUE_OPTIONAL, 'Limit output to given mech variant', '*');
+            ->addOption('filename', null, InputOption::VALUE_OPTIONAL, 'Limit output to given mech files (default: *)', '*');
     }
 
     /**
