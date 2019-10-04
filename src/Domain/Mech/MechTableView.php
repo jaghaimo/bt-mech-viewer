@@ -12,8 +12,11 @@ class MechTableView extends Table
     public function setMechs(MechCollection $mechs)
     {
         $this->setHeaders(['Class', 'Tonnage', 'Name', 'Variant', 'B', 'E', 'M', 'S', 'Bundle']);
+        $allMechs = $mechs->getMechs();
+        $allCount = count($allMechs);
+        $mechText = $allCount === 1 ? 'mech' : 'mechs';
 
-        foreach ($mechs->getMechs() as $mech) {
+        foreach ($allMechs as $mech) {
             $this->addRow([
                 $mech->getClass(),
                 $mech->getTonnage(),
@@ -26,6 +29,8 @@ class MechTableView extends Table
                 $mech->getBundle()
             ]);
         }
+
+        $this->setFooterTitle("Found $allCount $mechText matching your query");
     }
 
     /**
