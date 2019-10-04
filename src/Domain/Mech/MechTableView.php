@@ -44,6 +44,6 @@ class MechTableView extends Table
     {
         $hardpoints = $mech->getTotalHardpoints($hardpointType);
 
-        return $hardpoints < 0 ? 12 : $hardpoints;
+        return $hardpoints < 0 ? 22 : $hardpoints;
     }
 }
