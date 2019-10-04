@@ -14,20 +14,6 @@ services:
       - '@JsonHelper'
       - !php/const Btmv\Domain\Config\ConfigService::DEFAULT_CONFIG_FILE
 
-  ConfigListCommand:
-    class: Btmv\Domain\Config\ConfigListCommand
-    arguments:
-      - '@ConfigService'
-    tags:
-      - { name: "console.command", command: "config:list" }
-
-  ConfigSetCommand:
-    class: Btmv\Domain\Config\ConfigSetCommand
-    arguments:
-      - '@ConfigService'
-    tags:
-      - { name: "console.command", command: "config:set" }
-
   Finder:
     class: Symfony\Component\Finder\Finder
 
