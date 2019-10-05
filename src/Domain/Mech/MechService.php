@@ -41,7 +41,11 @@ class MechService
         $this->configureFinder($includeDirs, $excludeDirs, $filename);
 
         foreach ($this->finder->getIterator() as $fileInfo) {
-            $mechs[] = $this->mechFactory->get($fileInfo);
+            $mech = $this->mechFactory->get($fileInfo);
+
+            if (!$mech->getTags()->isBlacklisted()) {
+                $mechs[] = $mech;
+            }
         }
 
         return MechCollection::fromArray($mechs);

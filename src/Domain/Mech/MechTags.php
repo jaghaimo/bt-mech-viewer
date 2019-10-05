@@ -21,6 +21,11 @@ class MechTags
     /**
      * @var bool
      */
+    private $isBlacklisted = false;
+
+    /**
+     * @var bool
+     */
     private $isClan = false;
 
     /**
@@ -42,6 +47,14 @@ class MechTags
     /**
      * @return bool
      */
+    public function isBlacklisted(): bool
+    {
+        return $this->isBlacklisted;
+    }
+
+    /**
+     * @return bool
+     */
     public function isClan(): bool
     {
         return $this->isClan;
@@ -53,6 +66,14 @@ class MechTags
     public function isOmni(): bool
     {
         return $this->isOmni;
+    }
+
+    /**
+     * @param bool $isBlacklisted
+     */
+    public function setBlacklisted(bool $isBlacklisted): void
+    {
+        $this->isBlacklisted = $isBlacklisted;
     }
 
     /**
@@ -84,13 +105,15 @@ class MechTags
             $tagLower = strtolower($tag);
             
             switch ($tagLower) {
+                case self::TAG_BLACKLISTED:
+                    $mechTags->setBlacklisted(true);
+                    break;
                 case self::TAG_CLAN:
                     $mechTags->setClan(true);
                     break;
                 case self::TAG_OMNI:
                     $mechTags->setOmni(true);
                     break;
-                case self::TAG_BLACKLISTED:
                 case self::TAG_ELITE:
                 case self::TAG_HERO:
                 case self::TAG_PRIMITIVE:
