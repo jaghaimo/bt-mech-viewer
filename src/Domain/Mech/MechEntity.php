@@ -30,6 +30,11 @@ class MechEntity
     private $name;
 
     /**
+     * @var MechTags
+     */
+    private $tags;
+
+    /**
      * @var int
      */
     private $tonnage;
@@ -47,6 +52,7 @@ class MechEntity
      * @param int $tonnage
      * @param string $variant
      * @param MechLocations $locations
+     * @param MechTags $tags
      */
     public function __construct(
         string $bundle,
@@ -55,7 +61,8 @@ class MechEntity
         int $cost,
         int $tonnage,
         string $variant,
-        MechLocations $locations
+        MechLocations $locations,
+        MechTags $tags
     ) {
         $this->bundle = $bundle;
         $this->class = $class;
@@ -64,6 +71,7 @@ class MechEntity
         $this->tonnage = $tonnage;
         $this->variant = $variant;
         $this->locations = $locations;
+        $this->tags = $tags;
     }
 
     /**
@@ -87,7 +95,8 @@ class MechEntity
                 (int) $arrayDescription['cost'],
                 (int) $arrayLower['tonnage'],
                 strtoupper($arrayLower['variantname']),
-                MechLocations::fromArray($arrayLower['locations'])
+                MechLocations::fromArray($arrayLower['locations']),
+                MechTags::fromArray($arrayLower['chassistags'])
             );
         } catch (MechException $mechException) {
             throw $mechException;
@@ -129,21 +138,27 @@ class MechEntity
     }
 
     /**
+     * @return MechLocations
+     */
+    public function getLocations(): MechLocations
+    {
+        return $this->locations;
+    }
+
+    /**
+     * @return MechTags
+     */
+    public function getTags(): MechTags
+    {
+        return $this->tags;
+    }
+
+    /**
      * @return int
      */
     public function getTonnage(): int
     {
         return $this->tonnage;
-    }
-
-    /**
-     * @param string $hardpointType
-     *
-     * @return int
-     */
-    public function getTotalHardpoints(string $hardpointType): int
-    {
-        return $this->locations->getTotalHardpoints($hardpointType);
     }
 
     /**
