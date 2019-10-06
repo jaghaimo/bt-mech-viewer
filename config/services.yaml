@@ -20,22 +20,21 @@ services:
   JsonHelper:
     class: Btmv\Utils\Json\JsonHelper
 
-  MechFactory:
-    class: Btmv\Domain\Mech\MechFactory
+  ChassisdefFactory:
+    class: Btmv\Domain\Chassisdef\ChassisdefFactory
     arguments:
       - '@JsonHelper'
 
-  MechListCommand:
-    class: Btmv\Domain\Mech\MechListCommand
+  ChassisdefListCommand:
+    class: Btmv\Domain\Chassisdef\ChassisdefListCommand
     arguments:
       - '@ConfigService'
-      - '@MechService'
+      - '@ChassisdefService'
     tags:
-      - { name: "console.command", command: "mech:list" }
+      - { name: "console.command", command: "chassisdef:list" }
 
-  MechService:
-    class: Btmv\Domain\Mech\MechService
+  ChassisdefService:
+    class: Btmv\Domain\Chassisdef\ChassisdefService
     arguments:
       - '@Finder'
-      - '@MechFactory'
-
+      - '@ChassisdefFactory'

@@ -17,13 +17,13 @@ class JsonHelper
         $config = @file_get_contents($jsonFile);
 
         if ($config === false) {
-            throw new JsonNotReadException();
+            throw new JsonNotReadException($jsonFile);
         }
 
         $configArray = json_decode($config, true);
 
         if ($configArray === null) {
-            throw new JsonNotDecodedException();
+            throw new JsonNotDecodedException($jsonFile);
         }
 
         return $configArray;
@@ -41,13 +41,13 @@ class JsonHelper
         $jsonEncoded = json_encode($jsonObject);
 
         if ($jsonEncoded === false) {
-            throw new JsonNotEncodedException();
+            throw new JsonNotEncodedException($jsonFile);
         }
 
         $bytesWritten = file_put_contents($jsonFile, $jsonEncoded);
 
         if ($bytesWritten === false) {
-            throw new JsonNotWrittenException();
+            throw new JsonNotWrittenException($jsonFile);
         }
     }
 }

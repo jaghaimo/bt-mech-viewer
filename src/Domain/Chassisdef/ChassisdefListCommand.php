@@ -1,23 +1,23 @@
 <?php
 
-namespace Btmv\Domain\Mech;
+namespace Btmv\Domain\Chassisdef;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class MechListCommand extends MechCommand
+class ChassisdefListCommand extends ChassisdefCommand
 {
     /**
      * @var string
      */
-    protected static $defaultName = 'mech:list';
+    protected static $defaultName = 'chassisdef:list';
 
     protected function configure()
     {
         parent::configure();
 
         $this
-            ->setDescription('List mechs defined in the configured folder.');
+            ->setDescription('List chassisdefs defined in the configured folder.');
     }
 
     /**
@@ -32,10 +32,10 @@ class MechListCommand extends MechCommand
         $modsDirectory = $config->getIncludeDirectories();
         $excludeDirs = $config->getExcludeDirectories();
         $filename = $input->getOption('filename');
-        $mechs = $this->mechService->findMechs($modsDirectory, $excludeDirs, $filename);
+        $chassisdefs = $this->chassisdefService->findChassisdefs($modsDirectory, $excludeDirs, $filename);
 
-        $table = new MechTableView($output);
-        $table->setMechs($mechs);
+        $table = new ChassisdefTableView($output);
+        $table->setChassisdefs($chassisdefs);
         $table->render();
 
         return 0;

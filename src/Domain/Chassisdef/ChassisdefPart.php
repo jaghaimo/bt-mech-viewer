@@ -1,10 +1,10 @@
 <?php
 
-namespace Btmv\Domain\Mech;
+namespace Btmv\Domain\Chassisdef;
 
-class MechPart
+class ChassisdefPart
 {
-    /** @var MechHardpoints */
+    /** @var ChassisdefHardpoints */
     private $hardpoints;
 
     /** @var int */
@@ -17,13 +17,13 @@ class MechPart
     private $internalStructure;
 
     /**
-     * @param MechHardpoints $hardpoints
+     * @param ChassisdefHardpoints $hardpoints
      * @param int $maxArmorFront
      * @param int $maxArmorRear
      * @param int $internalStructure
      */
     public function __construct(
-        MechHardpoints $hardpoints,
+        ChassisdefHardpoints $hardpoints,
         int $maxArmorFront,
         int $maxArmorRear,
         int $internalStructure
@@ -71,14 +71,14 @@ class MechPart
     /**
      * @param array $array
      *
-     * @return MechPart
+     * @return ChassisdefPart
      */
-    public static function fromArray(array $array): MechPart
+    public static function fromArray(array $array): ChassisdefPart
     {
         $arrayLower = array_change_key_case($array, CASE_LOWER);
 
         return new self(
-            MechHardpoints::fromArray($arrayLower['hardpoints']),
+            ChassisdefHardpoints::fromArray($arrayLower['hardpoints']),
             $arrayLower['maxarmor'],
             $arrayLower['maxreararmor'],
             $arrayLower['internalstructure']
@@ -86,10 +86,10 @@ class MechPart
     }
 
     /**
-     * @return MechPart
+     * @return ChassisdefPart
      */
-    public static function makeEmpty(): MechPart
+    public static function makeEmpty(): ChassisdefPart
     {
-        return new self(new MechHardpoints(), 0, 0, 0);
+        return new self(new ChassisdefHardpoints(), 0, 0, 0);
     }
 }

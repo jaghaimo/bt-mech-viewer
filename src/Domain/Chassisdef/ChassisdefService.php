@@ -1,12 +1,12 @@
 <?php
 
-namespace Btmv\Domain\Mech;
+namespace Btmv\Domain\Chassisdef;
 
 use Symfony\Component\Finder\Finder;
 
-class MechService
+class ChassisdefService
 {
-    const MECHDEF_PATTERN = '/^chassisdef\_%s\.json$/i';
+    const CHASSISDEF_PATTERN = '/^chassisdef\_%s\.json$/i';
 
     /**
      * @var Finder
@@ -14,18 +14,18 @@ class MechService
     private $finder;
 
     /**
-     * @var MechFactory
+     * @var ChassisdefFactory
      */
-    private $mechFactory;
+    private $chassisdefFactory;
 
     /**
      * @param Finder $finder
-     * @param MechFactory $mechFactory
+     * @param ChassisdefFactory $chassisdefFactory
      */
-    public function __construct(Finder $finder, MechFactory $mechFactory)
+    public function __construct(Finder $finder, ChassisdefFactory $chassisdefFactory)
     {
         $this->finder = $finder;
-        $this->mechFactory = $mechFactory;
+        $this->chassisdefFactory = $chassisdefFactory;
     }
 
     /**
@@ -33,22 +33,22 @@ class MechService
      * @param string[] $excludeDirs
      * @param string $filename
      *
-     * @return MechCollection
+     * @return ChassisdefCollection
      */
-    public function findMechs(array $includeDirs, array $excludeDirs, string $filename): MechCollection
+    public function findChassisdefs(array $includeDirs, array $excludeDirs, string $filename): ChassisdefCollection
     {
-        $mechs = [];
+        $chassisdefs = [];
         $this->configureFinder($includeDirs, $excludeDirs, $filename);
 
         foreach ($this->finder->getIterator() as $fileInfo) {
-            $mech = $this->mechFactory->get($fileInfo);
+            $chassisdef = $this->chassisdefFactory->get($fileInfo);
 
-            if (!$mech->getTags()->isBlacklisted()) {
-                $mechs[] = $mech;
+            if (!$chassisdef->getTags()->isBlacklisted()) {
+                $chassisdefs[] = $chassisdef;
             }
         }
 
-        return MechCollection::fromArray($mechs);
+        return ChassisdefCollection::fromArray($chassisdefs);
     }
 
     /**
@@ -59,7 +59,7 @@ class MechService
     private function configureFinder(array  $includeDirs, array $excludeDirs, string $filename)
     {
         $name = sprintf(
-            self::MECHDEF_PATTERN,
+            self::CHASSISDEF_PATTERN,
             $this->normalize($filename)
         );
 

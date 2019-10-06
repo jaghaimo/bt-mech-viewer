@@ -1,18 +1,18 @@
 <?php
 
-namespace Btmv\Domain\Mech;
+namespace Btmv\Domain\Chassisdef;
 
 use Btmv\Domain\Config\ConfigEntity;
 use Btmv\Domain\Config\ConfigService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 
-abstract class MechCommand extends Command
+abstract class ChassisdefCommand extends Command
 {
     /**
-     * @var MechService
+     * @var ChassisdefService
      */
-    protected $mechService;
+    protected $chassisdefService;
 
     /**
      * @var ConfigService
@@ -21,19 +21,19 @@ abstract class MechCommand extends Command
 
     /**
      * @param ConfigService $configService
-     * @param MechService $mechService
+     * @param ChassisdefService $chassisdefService
      */
-    public function __construct(ConfigService $configService, MechService $mechService)
+    public function __construct(ConfigService $configService, ChassisdefService $chassisdefService)
     {
         $this->configService = $configService;
-        $this->mechService = $mechService;
+        $this->chassisdefService = $chassisdefService;
         parent::__construct();
     }
 
     protected function configure()
     {
         $this
-            ->addOption('filename', null, InputOption::VALUE_OPTIONAL, 'Limit output to given mech files (default: *)', '*');
+            ->addOption('filename', null, InputOption::VALUE_OPTIONAL, 'Limit output to given chassisdef files (default: *)', '*');
     }
 
     /**

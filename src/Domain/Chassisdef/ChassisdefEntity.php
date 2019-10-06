@@ -1,8 +1,8 @@
 <?php
 
-namespace Btmv\Domain\Mech;
+namespace Btmv\Domain\Chassisdef;
 
-class MechEntity
+class ChassisdefEntity
 {
     /**
      * @var string
@@ -20,7 +20,7 @@ class MechEntity
     private $class;
 
     /**
-     * @var MechLocations
+     * @var ChassisdefLocations
      */
     private $locations;
 
@@ -30,7 +30,7 @@ class MechEntity
     private $name;
 
     /**
-     * @var MechTags
+     * @var ChassisdefTags
      */
     private $tags;
 
@@ -51,8 +51,8 @@ class MechEntity
      * @param int $cost
      * @param int $tonnage
      * @param string $variant
-     * @param MechLocations $locations
-     * @param MechTags $tags
+     * @param ChassisdefLocations $locations
+     * @param ChassisdefTags $tags
      */
     public function __construct(
         string $bundle,
@@ -61,8 +61,8 @@ class MechEntity
         int $cost,
         int $tonnage,
         string $variant,
-        MechLocations $locations,
-        MechTags $tags
+        ChassisdefLocations $locations,
+        ChassisdefTags $tags
     ) {
         $this->bundle = $bundle;
         $this->class = $class;
@@ -75,17 +75,17 @@ class MechEntity
     }
 
     /**
-     * @param array $array
+     * @param array $chassisDef
      * @param string $bundle
      *
-     * @return MechEntity
+     * @return ChassisdefEntity
      *
-     * @throws MechException
+     * @throws ChassisdefException
      */
-    public static function fromArray(array $array, string $bundle): MechEntity
+    public static function fromArray(array $chassisDef, string $bundle): ChassisdefEntity
     {
         try {
-            $arrayLower = array_change_key_case($array, CASE_LOWER);
+            $arrayLower = array_change_key_case($chassisDef, CASE_LOWER);
             $arrayDescription = array_change_key_case($arrayLower['description'], CASE_LOWER);
 
             return new self(
@@ -95,13 +95,13 @@ class MechEntity
                 (int) $arrayDescription['cost'],
                 (int) $arrayLower['tonnage'],
                 strtoupper($arrayLower['variantname']),
-                MechLocations::fromArray($arrayLower['locations']),
-                MechTags::fromArray($arrayLower['chassistags'])
+                ChassisdefLocations::fromArray($arrayLower['locations']),
+                ChassisdefTags::fromArray($arrayLower['chassistags'])
             );
-        } catch (MechException $mechException) {
-            throw $mechException;
+        } catch (ChassisdefException $chassisdefException) {
+            throw $chassisdefException;
         } catch (\Throwable $throwable) {
-            throw MechException::missingProperty($throwable);
+            throw ChassisdefException::missingProperty($throwable);
         }
     }
 
@@ -138,17 +138,17 @@ class MechEntity
     }
 
     /**
-     * @return MechLocations
+     * @return ChassisdefLocations
      */
-    public function getLocations(): MechLocations
+    public function getLocations(): ChassisdefLocations
     {
         return $this->locations;
     }
 
     /**
-     * @return MechTags
+     * @return ChassisdefTags
      */
-    public function getTags(): MechTags
+    public function getTags(): ChassisdefTags
     {
         return $this->tags;
     }

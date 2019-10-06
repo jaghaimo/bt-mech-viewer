@@ -1,8 +1,8 @@
 <?php
 
-namespace Btmv\Domain\Mech;
+namespace Btmv\Domain\Chassisdef;
 
-class MechHardpoints
+class ChassisdefHardpoints
 {
     const HARDPOINT_ANTI_PERSONNEL = 'antipersonnel';
     const HARDPOINT_BALLISTIC = 'ballistic';
@@ -56,7 +56,7 @@ class MechHardpoints
      *
      * @return int
      *
-     * @throws MechException
+     * @throws ChassisdefException
      */
     public function getHardpoints(string $hardpointType): int
     {
@@ -74,7 +74,7 @@ class MechHardpoints
             case self::HARDPOINT_MISSILE:
                 return $this->missile;
             default:
-                throw MechException::invalidMechHardpoint($hardpointType);
+                throw ChassisdefException::invalidChassisdefHardpoint($hardpointType);
         }
     }
 
@@ -89,11 +89,11 @@ class MechHardpoints
     /**
      * @param array $array
      *
-     * @return MechHardpoints
+     * @return ChassisdefHardpoints
      *
-     * @throws MechException
+     * @throws ChassisdefException
      */
-    public static function fromArray(array $array): MechHardpoints
+    public static function fromArray(array $array): ChassisdefHardpoints
     {
         $mechHardpoints = new self();
 
@@ -121,7 +121,7 @@ class MechHardpoints
                     $mechHardpoints->addMissile();
                     break;
                 default:
-                    throw MechException::invalidMechHardpoint($weaponMount);
+                    throw ChassisdefException::invalidChassisdefHardpoint($weaponMount);
             }
         }
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Btmv\Domain\Mech;
+namespace Btmv\Domain\Chassisdef;
 
-class MechTags
+class ChassisdefTags
 {
     const TAG_BLACKLISTED = 'blacklisted';
     const TAG_CLAN = 'clanmech';
@@ -95,24 +95,24 @@ class MechTags
     /**
      * @param array $array
      *
-     * @return MechTags
+     * @return ChassisdefTags
      */
-    public static function fromArray(array $array): MechTags
+    public static function fromArray(array $array): ChassisdefTags
     {
-        $mechTags = new MechTags();
+        $chassisdefTags = new ChassisdefTags();
 
         foreach ($array['items'] as $tag) {
             $tagLower = strtolower($tag);
             
             switch ($tagLower) {
                 case self::TAG_BLACKLISTED:
-                    $mechTags->setBlacklisted(true);
+                    $chassisdefTags->setBlacklisted(true);
                     break;
                 case self::TAG_CLAN:
-                    $mechTags->setClan(true);
+                    $chassisdefTags->setClan(true);
                     break;
                 case self::TAG_OMNI:
-                    $mechTags->setOmni(true);
+                    $chassisdefTags->setOmni(true);
                     break;
                 case self::TAG_ELITE:
                 case self::TAG_HERO:
@@ -128,6 +128,6 @@ class MechTags
             }
         }
 
-        return $mechTags;
+        return $chassisdefTags;
     }
 }
