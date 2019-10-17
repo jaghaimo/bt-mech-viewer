@@ -2,10 +2,8 @@
 
 namespace Btmv\Command;
 
+use Btmv\Action\ChassisdefListAction;
 use Btmv\Command\Table\ChassisdefTableView;
-use Btmv\Domain\Chassisdef\ChassisdefFilter;
-use Btmv\Domain\Chassisdef\ChassisdefService;
-use Btmv\Domain\Config\ConfigService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -14,29 +12,19 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ChassisdefListCommand extends Command
 {
     /**
-     * @var ChassisdefService
-     */
-    private $chassisdefService;
-
-    /**
-     * @var ConfigService
-     */
-    private $configService;
-
-    /**
      * @var string
      */
     protected static $defaultName = 'chassisdef:list';
 
+    private $chassisdefListAction;
+
     /**
-     * @param ConfigService $configService
-     * @param ChassisdefService $chassisdefService
+     * @param ChassisdefListAction $chassisdefListAction
      */
-    public function __construct(ConfigService $configService, ChassisdefService $chassisdefService)
+    public function __construct(ChassisdefListAction $chassisdefListAction)
     {
         parent::__construct();
-        $this->configService = $configService;
-        $this->chassisdefService = $chassisdefService;
+        $this->chassisdefListAction = $chassisdefListAction;
     }
 
     protected function configure()
@@ -55,27 +43,13 @@ class ChassisdefListCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $config = $this->configService->getConfig();
-        $modsDirectory = $config->getIncludeDirectories();
-        $excludeDirs = $config->getExcludeDirectories();
         $filename = $input->getOption('filename');
-        $filter = $this->getFilter($input);
-        $chassisdefs = $this->chassisdefService->findChassisdefs($modsDirectory, $excludeDirs, $filename, $filter);
+        $chassisdefs = $this->chassisdefListAction->execute($filename);
 
         $table = new ChassisdefTableView($output);
         $table->setChassisdefs($chassisdefs);
         $table->render();
 
         return 0;
-    }
-
-    /**
-     * @param InputInterface $input
-     *
-     * @return ChassisdefFilter
-     */
-    private function getFilter(InputInterface $input): ChassisdefFilter
-    {
-        return new ChassisdefFilter();
     }
 }
