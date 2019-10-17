@@ -45,6 +45,7 @@ class ChassisdefEntity
     private $variant;
 
     /**
+     * @param string $id
      * @param string $bundle
      * @param string $class
      * @param string $name
@@ -55,6 +56,7 @@ class ChassisdefEntity
      * @param ChassisdefTags $tags
      */
     public function __construct(
+        string $id,
         string $bundle,
         string $class,
         string $name,
@@ -64,6 +66,7 @@ class ChassisdefEntity
         ChassisdefLocations $locations,
         ChassisdefTags $tags
     ) {
+        $this->id = $id;
         $this->bundle = $bundle;
         $this->class = $class;
         $this->name = $name;
@@ -89,6 +92,7 @@ class ChassisdefEntity
             $arrayDescription = array_change_key_case($arrayLower['description'], CASE_LOWER);
 
             return new self(
+                strtolower($arrayDescription['id']),
                 $bundle,
                 ucfirst($arrayLower['weightclass']),
                 ucfirst($arrayDescription['name']),
@@ -127,6 +131,14 @@ class ChassisdefEntity
     public function getClass(): string
     {
         return $this->class;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
     }
 
     /**

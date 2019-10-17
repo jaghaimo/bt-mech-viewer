@@ -19,7 +19,7 @@ class ChassisdefCollection
      */
     public function add(ChassisdefEntity $mechEntity)
     {
-        $key = $this->getKey($mechEntity);
+        $key = $mechEntity->getId();
         $this->chassisdefEntities[$key] = $mechEntity;
         $this->isSorted = false;
     }
@@ -30,7 +30,7 @@ class ChassisdefCollection
     public function get()
     {
         if (!$this->isSorted) {
-            ksort($this->chassisdefEntities, SORT_NATURAL);
+            $this->sort();
         }
 
         return $this->chassisdefEntities;
@@ -54,19 +54,22 @@ class ChassisdefCollection
         return $collection;
     }
 
-    /**
-     * @param ChassisdefEntity $chassisdefEntity
-     *
-     * @return string
-     */
-    private function getKey(ChassisdefEntity $chassisdefEntity): string
+    private function sort(): void
     {
-        // todo: use filename for key and implement arbitrary sorting
-        return sprintf(
-            '%d:%s:%s',
-            $chassisdefEntity->getTonnage(),
-            $chassisdefEntity->getName(),
-            $chassisdefEntity->getVariant()
-        );
+        if ($this->isSorted) {
+            return;
+        }
+
+        uasort($this->chassisdefEntities, function (ChassisdefEntity $entity1, ChassisdefEntity $entity2) {
+            if ($entity1->getTonnage() !== $entity2->getTonnage()) {
+                return $entity1->getTonnage() <=> $entity2->getTonnage();
+            }
+
+            if ($entity1->getName() !== $entity2->getName()) {
+                return $entity1->getName() <=> $entity2->getName();
+            }
+
+            return $entity1->getVariant() <=> $entity2->getVariant();
+        });
     }
 }
