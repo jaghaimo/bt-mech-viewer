@@ -1,7 +1,10 @@
 <?php
 
-namespace Btmv\Domain\Chassisdef;
+namespace Btmv\Command;
 
+use Btmv\Command\Table\ChassisdefTableView;
+use Btmv\Domain\Chassisdef\ChassisdefFilter;
+use Btmv\Domain\Chassisdef\ChassisdefService;
 use Btmv\Domain\Config\ConfigService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

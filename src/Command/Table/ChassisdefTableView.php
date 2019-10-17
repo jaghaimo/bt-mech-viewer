@@ -1,7 +1,9 @@
 <?php
 
-namespace Btmv\Domain\Chassisdef;
+namespace Btmv\Command\Table;
 
+use Btmv\Domain\Chassisdef\ChassisdefCollection;
+use Btmv\Domain\Chassisdef\ChassisdefHardpoints;
 use Symfony\Component\Console\Helper\Table;
 
 class ChassisdefTableView extends Table

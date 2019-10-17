@@ -11,34 +11,29 @@ class ConfigService
     const DEFAULT_CONFIG_FILE = 'btmv.json';
 
     /**
-     * @var string
-     */
-    private $configFile;
-
-    /**
      * @var JsonHelper
      */
     private $jsonHelper;
 
     /**
      * @param JsonHelper $jsonHelper
-     * @param string $configFile
      */
-    public function __construct(JsonHelper $jsonHelper, string $configFile)
+    public function __construct(JsonHelper $jsonHelper)
     {
         $this->jsonHelper = $jsonHelper;
-        $this->configFile = $configFile;
     }
 
     /**
+     * @param string $configFile
+     *
      * @return ConfigEntity
      *
      * @throws ConfigException
      */
-    public function getConfig(): ConfigEntity
+    public function getConfig(string $configFile = self::DEFAULT_CONFIG_FILE): ConfigEntity
     {
         try {
-            $configArray = $this->jsonHelper->read($this->configFile);
+            $configArray = $this->jsonHelper->read($configFile);
 
             return ConfigEntity::fromArray($configArray);
         } catch (JsonNotReadException $exception) {
