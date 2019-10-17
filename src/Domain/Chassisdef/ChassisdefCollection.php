@@ -15,19 +15,47 @@ class ChassisdefCollection
     private $chassisdefEntities = [];
 
     /**
-     * @param ChassisdefEntity $mechEntity
+     * @var ChassisdefFilter
      */
-    public function add(ChassisdefEntity $mechEntity)
+    private $chassisdefFilter;
+
+    /**
+     * @var int
+     */
+    private $matchingCount = 0;
+
+    /**
+     * @var int
+     */
+    private $totalCount = 0;
+
+    /**
+     * @param ChassisdefFilter $chassisdefFilter
+     */
+    public function __construct(ChassisdefFilter $chassisdefFilter)
     {
-        $key = $mechEntity->getId();
-        $this->chassisdefEntities[$key] = $mechEntity;
-        $this->isSorted = false;
+        $this->chassisdefFilter = $chassisdefFilter;
+    }
+
+    /**
+     * @param ChassisdefEntity $chassisdefEntity
+     */
+    public function add(ChassisdefEntity $chassisdefEntity)
+    {
+        $this->totalCount++;
+
+        if ($this->chassisdefFilter->isMatching($chassisdefEntity)) {
+            $this->matchingCount++;
+            $key = $chassisdefEntity->getId();
+            $this->chassisdefEntities[$key] = $chassisdefEntity;
+            $this->isSorted = false;
+        }
     }
 
     /**
      * @return ChassisdefEntity[]
      */
-    public function get()
+    public function getAll()
     {
         if (!$this->isSorted) {
             $this->sort();
@@ -37,13 +65,30 @@ class ChassisdefCollection
     }
 
     /**
+     * @return int
+     */
+    public function getMatchingCount(): int
+    {
+        return $this->matchingCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalCount(): int
+    {
+        return $this->totalCount;
+    }
+
+    /**
      * @param ChassisdefEntity[] $chasisDefEntities
+     * @param ChassisdefFilter $chassisdefFilter
      *
      * @return ChassisdefCollection
      */
-    public static function fromArray(array $chasisDefEntities)
+    public static function fromArray(array $chasisDefEntities, ChassisdefFilter $chassisdefFilter)
     {
-        $collection = new self();
+        $collection = new self($chassisdefFilter);
 
         foreach ($chasisDefEntities as $chasisDefEntity) {
             if ($chasisDefEntity instanceof ChassisdefEntity) {

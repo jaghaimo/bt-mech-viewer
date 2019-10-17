@@ -9,14 +9,14 @@ class ChassisdefService
     const CHASSISDEF_PATTERN = '/^chassisdef\_%s\.json$/i';
 
     /**
-     * @var Finder
-     */
-    private $finder;
-
-    /**
      * @var ChassisdefFactory
      */
     private $chassisdefFactory;
+
+    /**
+     * @var Finder
+     */
+    private $finder;
 
     /**
      * @param Finder $finder
@@ -32,11 +32,16 @@ class ChassisdefService
      * @param string[] $includeDirs
      * @param string[] $excludeDirs
      * @param string $filename
+     * @param ChassisdefFilter $chassisdefFilter
      *
      * @return ChassisdefCollection
      */
-    public function findChassisdefs(array $includeDirs, array $excludeDirs, string $filename): ChassisdefCollection
-    {
+    public function findChassisdefs(
+        array $includeDirs,
+        array $excludeDirs,
+        string $filename,
+        ChassisdefFilter $chassisdefFilter
+    ): ChassisdefCollection {
         $chassisdefs = [];
         $this->configureFinder($includeDirs, $excludeDirs, $filename);
 
@@ -48,7 +53,7 @@ class ChassisdefService
             }
         }
 
-        return ChassisdefCollection::fromArray($chassisdefs);
+        return ChassisdefCollection::fromArray($chassisdefs, $chassisdefFilter);
     }
 
     /**
@@ -56,7 +61,7 @@ class ChassisdefService
      * @param string[] $excludeDirs
      * @param string $filename
      */
-    private function configureFinder(array  $includeDirs, array $excludeDirs, string $filename)
+    private function configureFinder(array $includeDirs, array $excludeDirs, string $filename)
     {
         $name = sprintf(
             self::CHASSISDEF_PATTERN,

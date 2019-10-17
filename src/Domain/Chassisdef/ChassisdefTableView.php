@@ -14,9 +14,7 @@ class ChassisdefTableView extends Table
         $this->setHeaders(
             ['Class', 'Tonnage', 'Name', 'Variant', 'Tags', 'Cost', 'B', 'E', 'M', 'S', 'Bundle']
         );
-        $chassisdefEntities = $chassisdefCollection->get();
-        $allCount = count($chassisdefEntities);
-        $mechText = $allCount === 1 ? 'chassisdef' : 'chassisdefs';
+        $chassisdefEntities = $chassisdefCollection->getAll();
 
         foreach ($chassisdefEntities as $chassisdefEntity) {
             $this->addRow([
@@ -26,27 +24,33 @@ class ChassisdefTableView extends Table
                 $chassisdefEntity->getVariant(),
                 $chassisdefEntity->getTags()->getShortTags(),
                 number_format($chassisdefEntity->getCost()),
-                $this->getTotalHardpoints($chassisdefEntity, ChassisdefHardpoints::HARDPOINT_BALLISTIC),
-                $this->getTotalHardpoints($chassisdefEntity, ChassisdefHardpoints::HARDPOINT_ENERGY),
-                $this->getTotalHardpoints($chassisdefEntity, ChassisdefHardpoints::HARDPOINT_MISSILE),
-                $this->getTotalHardpoints($chassisdefEntity, ChassisdefHardpoints::HARDPOINT_ANTI_PERSONNEL),
+                $chassisdefEntity->getLocations()->getTotalHardpoints(ChassisdefHardpoints::HARDPOINT_BALLISTIC),
+                $chassisdefEntity->getLocations()->getTotalHardpoints(ChassisdefHardpoints::HARDPOINT_ENERGY),
+                $chassisdefEntity->getLocations()->getTotalHardpoints(ChassisdefHardpoints::HARDPOINT_MISSILE),
+                $chassisdefEntity->getLocations()->getTotalHardpoints(ChassisdefHardpoints::HARDPOINT_ANTI_PERSONNEL),
                 $chassisdefEntity->getBundle()
             ]);
         }
 
-        $this->setFooterTitle("Found $allCount $mechText matching your query");
+        $this->setFooter($chassisdefCollection);
     }
 
     /**
-     * @param ChassisdefEntity $mech
-     * @param string $hardpointType
-     *
-     * @return int
+     * @param ChassisdefCollection $chassisdefCollection
      */
-    private function getTotalHardpoints(ChassisdefEntity $mech, string $hardpointType): int
+    private function setFooter(ChassisdefCollection $chassisdefCollection)
     {
-        $hardpoints = $mech->getLocations()->getTotalHardpoints($hardpointType);
+        $totalCount = $chassisdefCollection->getTotalCount();
+        $matchingCount = $chassisdefCollection->getMatchingCount();
+        $filteredCount = $totalCount - $matchingCount;
 
-        return $hardpoints < 0 ? 22 : $hardpoints;
+        $chassisdefText = $matchingCount === 1 ? 'chassisdef' : 'chassisdefs';
+        $footer = "Found $matchingCount $chassisdefText matching your query";
+
+        if ($filteredCount > 0) {
+            $footer .= " ($filteredCount removed by filters)";
+        }
+
+        $this->setFooterTitle($footer);
     }
 }

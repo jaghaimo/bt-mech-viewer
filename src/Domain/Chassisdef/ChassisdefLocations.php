@@ -147,7 +147,8 @@ class ChassisdefLocations
         $hardpoints += $this->leftLeg->getHardpoints($hardpointType);
         $hardpoints += $this->rightLeg->getHardpoints($hardpointType);
 
-        return $hardpoints;
+        // correct omni hardpoints
+        return $hardpoints < 0 ? 22 : $hardpoints;
     }
 
     /**
