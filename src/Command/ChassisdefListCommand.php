@@ -36,6 +36,9 @@ class ChassisdefListCommand extends Command
         $this
             ->setDescription('List chassisdefs defined in the configured folder.')
             ->addOption('filename', null, InputOption::VALUE_OPTIONAL, 'Limit output to given chassisdef files (default: *)', '*')
+            ->addOption('bundle', null, InputOption::VALUE_OPTIONAL, 'Filter output based on bundle (string)')
+            ->addOption('class', null, InputOption::VALUE_OPTIONAL, 'Filter output based on class (enum: light, medium, heavy, assault)')
+            ->addOption('tonnage', null, InputOption::VALUE_OPTIONAL, 'Filter output based on tonnage (integer)')
         ;
     }
 
@@ -47,8 +50,9 @@ class ChassisdefListCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $filename = $this->getFilename($input);
-        $chassisdefs = $this->chassisdefListAction->execute($filename);
+        $filename = (string) $this->getInputValue($input, 'filename');
+        $filters = $this->getFilters($input);
+        $chassisdefs = $this->chassisdefListAction->execute($filename, $filters);
 
         $table = new ChassisdefTableView($output);
         $table->setChassisdefs($chassisdefs);
@@ -60,16 +64,35 @@ class ChassisdefListCommand extends Command
     /**
      * @param InputInterface $input
      *
-     * @return string
+     * @return array
      */
-    private function getFilename(InputInterface $input): string
+    private function getFilters(InputInterface $input): array
     {
-        $filename = $input->getOption('filename');
+        return [
+            'bundle' => $this->getInputValue($input, 'bundle'),
+            'class' => $this->getInputValue($input, 'class'),
+            'tonnage' => $this->getInputValue($input, 'tonnage'),
+        ];
+    }
 
-        if (is_array($filename)) {
-            $filename = $filename[0];
+    /**
+     * @param InputInterface $input
+     * @param string         $option
+     *
+     * @return null|string
+     */
+    private function getInputValue(InputInterface $input, string $option): ?string
+    {
+        $value = $input->getOption($option);
+
+        if (is_array($value)) {
+            $value = $value[0];
         }
 
-        return (string) $filename;
+        if (is_null($value)) {
+            return null;
+        }
+
+        return (string) $value;
     }
 }

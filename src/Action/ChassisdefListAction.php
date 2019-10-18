@@ -50,6 +50,7 @@ class ChassisdefListAction
         $config = $this->configService->getConfig();
         $modsDirectory = $config->getIncludeDirectories();
         $excludeDirs = $config->getExcludeDirectories();
+        $this->populateFilters($filters);
 
         return $this->chassisdefService->findChassisdefs(
             $modsDirectory,
@@ -57,5 +58,15 @@ class ChassisdefListAction
             $filename,
             $this->chassisdefFilter
         );
+    }
+
+    /**
+     * @param array $filters
+     */
+    private function populateFilters(array $filters): void
+    {
+        $this->chassisdefFilter->setBundle($filters['bundle']);
+        $this->chassisdefFilter->setClass($filters['class']);
+        $this->chassisdefFilter->setTonnage((int) $filters['tonnage']);
     }
 }
