@@ -20,6 +20,9 @@ class Kernel extends BaseKernel
         return \dirname(__DIR__);
     }
 
+    /**
+     * @psalm-suppress UnresolvableInclude
+     */
     public function registerBundles(): iterable
     {
         $contents = require $this->getProjectDir() . '/config/bundles.php';

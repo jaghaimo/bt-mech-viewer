@@ -25,9 +25,9 @@ class ChassisdefFactory
     /**
      * @param SplFileInfo $fileInfo
      *
-     * @return ChassisdefEntity
-     *
      * @throws ChassisdefFactoryException
+     *
+     * @return ChassisdefEntity
      */
     public function get(SplFileInfo $fileInfo)
     {
@@ -38,9 +38,8 @@ class ChassisdefFactory
 
         try {
             $chassisdefArray = $this->jsonHelper->read($chassisdef);
-            $chassisdefEntity = ChassisdefEntity::fromArray($chassisdefArray, $bundle);
 
-            return $chassisdefEntity;
+            return ChassisdefEntity::fromArray($chassisdefArray, $bundle);
         } catch (\Throwable $throwable) {
             throw ChassisdefFactoryException::brokenChassisdef($chassisdef, $throwable);
         }

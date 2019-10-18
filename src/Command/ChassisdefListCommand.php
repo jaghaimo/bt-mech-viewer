@@ -16,6 +16,9 @@ class ChassisdefListCommand extends Command
      */
     protected static $defaultName = 'chassisdef:list';
 
+    /**
+     * @var ChassisdefListAction
+     */
     private $chassisdefListAction;
 
     /**
@@ -27,23 +30,24 @@ class ChassisdefListCommand extends Command
         $this->chassisdefListAction = $chassisdefListAction;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this
             ->setDescription('List chassisdefs defined in the configured folder.')
-            ->addOption('filename', null, InputOption::VALUE_OPTIONAL, 'Limit output to given chassisdef files (default: *)', '*');
+            ->addOption('filename', null, InputOption::VALUE_OPTIONAL, 'Limit output to given chassisdef files (default: *)', '*')
+        ;
     }
 
     /**
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
      *
      * @return int
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $filename = $input->getOption('filename');
+        $filename = $this->getFilename($input);
         $chassisdefs = $this->chassisdefListAction->execute($filename);
 
         $table = new ChassisdefTableView($output);
@@ -51,5 +55,21 @@ class ChassisdefListCommand extends Command
         $table->render();
 
         return 0;
+    }
+
+    /**
+     * @param InputInterface $input
+     *
+     * @return string
+     */
+    private function getFilename(InputInterface $input): string
+    {
+        $filename = $input->getOption('filename');
+
+        if (is_array($filename)) {
+            $filename = $filename[0];
+        }
+
+        return (string) $filename;
     }
 }

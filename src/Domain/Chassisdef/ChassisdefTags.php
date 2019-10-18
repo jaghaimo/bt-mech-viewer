@@ -34,6 +34,48 @@ class ChassisdefTags
     private $isOmni = false;
 
     /**
+     * @param array $array
+     *
+     * @return ChassisdefTags
+     */
+    public static function fromArray(array $array): ChassisdefTags
+    {
+        $chassisdefTags = new ChassisdefTags();
+
+        foreach ($array['items'] as $tag) {
+            $tagLower = strtolower($tag);
+
+            switch ($tagLower) {
+                case self::TAG_BLACKLISTED:
+                    $chassisdefTags->setBlacklisted(true);
+
+                    break;
+                case self::TAG_CLAN:
+                    $chassisdefTags->setClan(true);
+
+                    break;
+                case self::TAG_OMNI:
+                    $chassisdefTags->setOmni(true);
+
+                    break;
+                case self::TAG_ELITE:
+                case self::TAG_HERO:
+                case self::TAG_PRIMITIVE:
+                case self::TAG_PROJECTB:
+                case self::TAG_PROTO:
+                case self::TAG_PROTOTYPE:
+                case self::TAG_RISC:
+                case self::TAG_SLDF:
+                case self::TAG_SOCIETY:
+                case self::TAG_SUPERHEAVY:
+                    break;
+            }
+        }
+
+        return $chassisdefTags;
+    }
+
+    /**
      * @return string
      */
     public function getShortTags(): string
@@ -90,44 +132,5 @@ class ChassisdefTags
     public function setOmni(bool $isOmni): void
     {
         $this->isOmni = $isOmni;
-    }
-
-    /**
-     * @param array $array
-     *
-     * @return ChassisdefTags
-     */
-    public static function fromArray(array $array): ChassisdefTags
-    {
-        $chassisdefTags = new ChassisdefTags();
-
-        foreach ($array['items'] as $tag) {
-            $tagLower = strtolower($tag);
-            
-            switch ($tagLower) {
-                case self::TAG_BLACKLISTED:
-                    $chassisdefTags->setBlacklisted(true);
-                    break;
-                case self::TAG_CLAN:
-                    $chassisdefTags->setClan(true);
-                    break;
-                case self::TAG_OMNI:
-                    $chassisdefTags->setOmni(true);
-                    break;
-                case self::TAG_ELITE:
-                case self::TAG_HERO:
-                case self::TAG_PRIMITIVE:
-                case self::TAG_PROJECTB:
-                case self::TAG_PROTO:
-                case self::TAG_PROTOTYPE:
-                case self::TAG_RISC:
-                case self::TAG_SLDF:
-                case self::TAG_SOCIETY:
-                case self::TAG_SUPERHEAVY:
-                    break;
-            }
-        }
-
-        return $chassisdefTags;
     }
 }

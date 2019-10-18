@@ -13,6 +13,8 @@
         "symfony/yaml": "4.3.*"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.15",
+        "vimeo/psalm": "^3.6"
     },
     "config": {
         "preferred-install": {
@@ -27,7 +29,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Btmm\\Tests\\": "tests/"
+            "Btmv\\Tests\\": "tests/"
         }
     },
     "replace": {

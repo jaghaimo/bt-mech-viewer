@@ -5,11 +5,6 @@ namespace Btmv\Domain\Chassisdef;
 class ChassisdefCollection
 {
     /**
-     * @var bool
-     */
-    private $isSorted = false;
-
-    /**
      * @var ChassisdefEntity[]
      */
     private $chassisdefEntities = [];
@@ -19,6 +14,10 @@ class ChassisdefCollection
      */
     private $chassisdefFilter;
 
+    /**
+     * @var bool
+     */
+    private $isSorted = false;
     /**
      * @var int
      */
@@ -40,12 +39,12 @@ class ChassisdefCollection
     /**
      * @param ChassisdefEntity $chassisdefEntity
      */
-    public function add(ChassisdefEntity $chassisdefEntity)
+    public function add(ChassisdefEntity $chassisdefEntity): void
     {
-        $this->totalCount++;
+        ++$this->totalCount;
 
         if ($this->chassisdefFilter->isMatching($chassisdefEntity)) {
-            $this->matchingCount++;
+            ++$this->matchingCount;
             $key = $chassisdefEntity->getId();
             $this->chassisdefEntities[$key] = $chassisdefEntity;
             $this->isSorted = false;
@@ -53,9 +52,30 @@ class ChassisdefCollection
     }
 
     /**
+     * @param ChassisdefEntity[] $chasisDefEntities
+     * @param ChassisdefFilter   $chassisdefFilter
+     *
+     * @return ChassisdefCollection
+     *
+     * @psalm-suppress RedundantConditionGivenDocblockType
+     */
+    public static function fromArray(array $chasisDefEntities, ChassisdefFilter $chassisdefFilter)
+    {
+        $collection = new self($chassisdefFilter);
+
+        foreach ($chasisDefEntities as $chasisDefEntity) {
+            if ($chasisDefEntity instanceof ChassisdefEntity) {
+                $collection->add($chasisDefEntity);
+            }
+        }
+
+        return $collection;
+    }
+
+    /**
      * @return ChassisdefEntity[]
      */
-    public function getAll()
+    public function getAll(): array
     {
         if (!$this->isSorted) {
             $this->sort();
@@ -80,41 +100,25 @@ class ChassisdefCollection
         return $this->totalCount;
     }
 
-    /**
-     * @param ChassisdefEntity[] $chasisDefEntities
-     * @param ChassisdefFilter $chassisdefFilter
-     *
-     * @return ChassisdefCollection
-     */
-    public static function fromArray(array $chasisDefEntities, ChassisdefFilter $chassisdefFilter)
-    {
-        $collection = new self($chassisdefFilter);
-
-        foreach ($chasisDefEntities as $chasisDefEntity) {
-            if ($chasisDefEntity instanceof ChassisdefEntity) {
-                $collection->add($chasisDefEntity);
-            }
-        }
-
-        return $collection;
-    }
-
     private function sort(): void
     {
         if ($this->isSorted) {
             return;
         }
 
-        uasort($this->chassisdefEntities, function (ChassisdefEntity $entity1, ChassisdefEntity $entity2) {
-            if ($entity1->getTonnage() !== $entity2->getTonnage()) {
-                return $entity1->getTonnage() <=> $entity2->getTonnage();
-            }
+        uasort(
+            $this->chassisdefEntities,
+            function (ChassisdefEntity $entity1, ChassisdefEntity $entity2) {
+                if ($entity1->getTonnage() !== $entity2->getTonnage()) {
+                    return $entity1->getTonnage() <=> $entity2->getTonnage();
+                }
 
-            if ($entity1->getName() !== $entity2->getName()) {
-                return $entity1->getName() <=> $entity2->getName();
-            }
+                if ($entity1->getName() !== $entity2->getName()) {
+                    return $entity1->getName() <=> $entity2->getName();
+                }
 
-            return $entity1->getVariant() <=> $entity2->getVariant();
-        });
+                return $entity1->getVariant() <=> $entity2->getVariant();
+            }
+        );
     }
 }

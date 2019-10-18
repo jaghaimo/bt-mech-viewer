@@ -7,46 +7,46 @@ class JsonHelper
     /**
      * @param string $jsonFile
      *
-     * @return array
-     *
      * @throws JsonNotReadException
      * @throws JsonNotDecodedException
+     *
+     * @return array
      */
     public function read(string $jsonFile): array
     {
         $config = @file_get_contents($jsonFile);
 
-        if ($config === false) {
+        if (false === $config) {
             throw new JsonNotReadException($jsonFile);
         }
 
         $configArray = json_decode($config, true);
 
-        if ($configArray === null) {
-            throw new JsonNotDecodedException($jsonFile);
+        if (is_array($configArray)) {
+            return $configArray;
         }
 
-        return $configArray;
+        throw new JsonNotDecodedException($jsonFile);
     }
 
     /**
      * @param string $jsonFile
-     * @param array $jsonObject
+     * @param array  $jsonObject
      *
      * @throws JsonNotEncodedException
      * @throws JsonNotWrittenException
      */
-    public function write(string $jsonFile, array $jsonObject)
+    public function write(string $jsonFile, array $jsonObject): void
     {
         $jsonEncoded = json_encode($jsonObject);
 
-        if ($jsonEncoded === false) {
+        if (false === $jsonEncoded) {
             throw new JsonNotEncodedException($jsonFile);
         }
 
         $bytesWritten = file_put_contents($jsonFile, $jsonEncoded);
 
-        if ($bytesWritten === false) {
+        if (false === $bytesWritten) {
             throw new JsonNotWrittenException($jsonFile);
         }
     }

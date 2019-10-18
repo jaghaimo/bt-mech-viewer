@@ -19,7 +19,7 @@ class ChassisdefService
     private $finder;
 
     /**
-     * @param Finder $finder
+     * @param Finder            $finder
      * @param ChassisdefFactory $chassisdefFactory
      */
     public function __construct(Finder $finder, ChassisdefFactory $chassisdefFactory)
@@ -29,9 +29,9 @@ class ChassisdefService
     }
 
     /**
-     * @param string[] $includeDirs
-     * @param string[] $excludeDirs
-     * @param string $filename
+     * @param string[]         $includeDirs
+     * @param string[]         $excludeDirs
+     * @param string           $filename
      * @param ChassisdefFilter $chassisdefFilter
      *
      * @return ChassisdefCollection
@@ -59,9 +59,9 @@ class ChassisdefService
     /**
      * @param string[] $includeDirs
      * @param string[] $excludeDirs
-     * @param string $filename
+     * @param string   $filename
      */
-    private function configureFinder(array $includeDirs, array $excludeDirs, string $filename)
+    private function configureFinder(array $includeDirs, array $excludeDirs, string $filename): void
     {
         $name = sprintf(
             self::CHASSISDEF_PATTERN,
@@ -72,7 +72,8 @@ class ChassisdefService
             ->files()
             ->in($includeDirs)
             ->exclude($excludeDirs)
-            ->name($name);
+            ->name($name)
+        ;
     }
 
     /**

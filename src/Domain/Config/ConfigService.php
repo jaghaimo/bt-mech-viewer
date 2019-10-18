@@ -26,9 +26,9 @@ class ConfigService
     /**
      * @param string $configFile
      *
-     * @return ConfigEntity
-     *
      * @throws ConfigException
+     *
+     * @return ConfigEntity
      */
     public function getConfig(string $configFile = self::DEFAULT_CONFIG_FILE): ConfigEntity
     {

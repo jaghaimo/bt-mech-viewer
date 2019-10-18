@@ -4,14 +4,19 @@ namespace Btmv\Domain\Chassisdef;
 
 class ChassisdefLocations
 {
+    const LOCATION_CENTER_TORSO = 'centertorso';
     const LOCATION_HEAD = 'head';
     const LOCATION_LEFT_ARM = 'leftarm';
-    const LOCATION_LEFT_TORSO = 'lefttorso';
-    const LOCATION_CENTER_TORSO = 'centertorso';
-    const LOCATION_RIGHT_TORSO = 'righttorso';
-    const LOCATION_RIGHT_ARM = 'rightarm';
     const LOCATION_LEFT_LEG = 'leftleg';
+    const LOCATION_LEFT_TORSO = 'lefttorso';
+    const LOCATION_RIGHT_ARM = 'rightarm';
     const LOCATION_RIGHT_LEG = 'rightleg';
+    const LOCATION_RIGHT_TORSO = 'righttorso';
+
+    /**
+     * @var ChassisdefPart
+     */
+    private $centerTorso;
 
     /**
      * @var ChassisdefPart
@@ -26,17 +31,12 @@ class ChassisdefLocations
     /**
      * @var ChassisdefPart
      */
+    private $leftLeg;
+
+    /**
+     * @var ChassisdefPart
+     */
     private $leftTorso;
-
-    /**
-     * @var ChassisdefPart
-     */
-    private $centerTorso;
-
-    /**
-     * @var ChassisdefPart
-     */
-    private $rightTorso;
 
     /**
      * @var ChassisdefPart
@@ -46,12 +46,12 @@ class ChassisdefLocations
     /**
      * @var ChassisdefPart
      */
-    private $leftLeg;
+    private $rightLeg;
 
     /**
      * @var ChassisdefPart
      */
-    private $rightLeg;
+    private $rightTorso;
 
     public function __construct()
     {
@@ -63,6 +63,71 @@ class ChassisdefLocations
         $this->rightArm = ChassisdefPart::makeEmpty();
         $this->leftLeg = ChassisdefPart::makeEmpty();
         $this->rightLeg = ChassisdefPart::makeEmpty();
+    }
+
+    /**
+     * @param array $locations
+     *
+     * @throws ChassisdefException
+     *
+     * @return ChassisdefLocations
+     */
+    public static function fromArray(array $locations): ChassisdefLocations
+    {
+        $chassisdefLocations = new self();
+
+        foreach ($locations as $location) {
+            $arrayLower = array_change_key_case($location, CASE_LOWER);
+            $chassisdefPart = ChassisdefPart::fromArray($arrayLower);
+            $normalizedLocation = strtolower($arrayLower['location']);
+
+            switch ($normalizedLocation) {
+                case self::LOCATION_HEAD:
+                    $chassisdefLocations->setHead($chassisdefPart);
+
+                    break;
+                case self::LOCATION_LEFT_ARM:
+                    $chassisdefLocations->setLeftArm($chassisdefPart);
+
+                    break;
+                case self::LOCATION_LEFT_TORSO:
+                    $chassisdefLocations->setLeftTorso($chassisdefPart);
+
+                    break;
+                case self::LOCATION_CENTER_TORSO:
+                    $chassisdefLocations->setCenterTorso($chassisdefPart);
+
+                    break;
+                case self::LOCATION_RIGHT_TORSO:
+                    $chassisdefLocations->setRightTorso($chassisdefPart);
+
+                    break;
+                case self::LOCATION_RIGHT_ARM:
+                    $chassisdefLocations->setRightArm($chassisdefPart);
+
+                    break;
+                case self::LOCATION_LEFT_LEG:
+                    $chassisdefLocations->setLeftLeg($chassisdefPart);
+
+                    break;
+                case self::LOCATION_RIGHT_LEG:
+                    $chassisdefLocations->setRightLeg($chassisdefPart);
+
+                    break;
+                default:
+                    throw ChassisdefException::invalidChassisdefLocation($normalizedLocation);
+            }
+        }
+
+        return $chassisdefLocations;
+    }
+
+    /**
+     * @return ChassisdefPart
+     */
+    public function getCenterTorso(): ChassisdefPart
+    {
+        return $this->centerTorso;
     }
 
     /**
@@ -84,25 +149,17 @@ class ChassisdefLocations
     /**
      * @return ChassisdefPart
      */
+    public function getLeftLeg(): ChassisdefPart
+    {
+        return $this->leftLeg;
+    }
+
+    /**
+     * @return ChassisdefPart
+     */
     public function getLeftTorso(): ChassisdefPart
     {
         return $this->leftTorso;
-    }
-
-    /**
-     * @return ChassisdefPart
-     */
-    public function getCenterTorso(): ChassisdefPart
-    {
-        return $this->centerTorso;
-    }
-
-    /**
-     * @return ChassisdefPart
-     */
-    public function getRightTorso(): ChassisdefPart
-    {
-        return $this->rightTorso;
     }
 
     /**
@@ -116,17 +173,17 @@ class ChassisdefLocations
     /**
      * @return ChassisdefPart
      */
-    public function getLeftLeg(): ChassisdefPart
+    public function getRightLeg(): ChassisdefPart
     {
-        return $this->leftLeg;
+        return $this->rightLeg;
     }
 
     /**
      * @return ChassisdefPart
      */
-    public function getRightLeg(): ChassisdefPart
+    public function getRightTorso(): ChassisdefPart
     {
-        return $this->rightLeg;
+        return $this->rightTorso;
     }
 
     /**
@@ -152,6 +209,14 @@ class ChassisdefLocations
     }
 
     /**
+     * @param ChassisdefPart $centerTorso
+     */
+    public function setCenterTorso(ChassisdefPart $centerTorso): void
+    {
+        $this->centerTorso = $centerTorso;
+    }
+
+    /**
      * @param ChassisdefPart $head
      */
     public function setHead(ChassisdefPart $head): void
@@ -168,27 +233,19 @@ class ChassisdefLocations
     }
 
     /**
+     * @param ChassisdefPart $leftLeg
+     */
+    public function setLeftLeg(ChassisdefPart $leftLeg): void
+    {
+        $this->leftLeg = $leftLeg;
+    }
+
+    /**
      * @param ChassisdefPart $leftTorso
      */
     public function setLeftTorso(ChassisdefPart $leftTorso): void
     {
         $this->leftTorso = $leftTorso;
-    }
-
-    /**
-     * @param ChassisdefPart $centerTorso
-     */
-    public function setCenterTorso(ChassisdefPart $centerTorso): void
-    {
-        $this->centerTorso = $centerTorso;
-    }
-
-    /**
-     * @param ChassisdefPart $rightTorso
-     */
-    public function setRightTorso(ChassisdefPart $rightTorso): void
-    {
-        $this->rightTorso = $rightTorso;
     }
 
     /**
@@ -200,14 +257,6 @@ class ChassisdefLocations
     }
 
     /**
-     * @param ChassisdefPart $leftLeg
-     */
-    public function setLeftLeg(ChassisdefPart $leftLeg): void
-    {
-        $this->leftLeg = $leftLeg;
-    }
-
-    /**
      * @param ChassisdefPart $rightLeg
      */
     public function setRightLeg(ChassisdefPart $rightLeg): void
@@ -216,51 +265,10 @@ class ChassisdefLocations
     }
 
     /**
-     * @param array $locations
-     *
-     * @return ChassisdefLocations
-     *
-     * @throws ChassisdefException
+     * @param ChassisdefPart $rightTorso
      */
-    public static function fromArray(array $locations): ChassisdefLocations
+    public function setRightTorso(ChassisdefPart $rightTorso): void
     {
-        $chassisdefLocations = new self();
-
-        foreach ($locations as $location) {
-            $arrayLower = array_change_key_case($location, CASE_LOWER);
-            $chassisdefPart = ChassisdefPart::fromArray($arrayLower);
-            $normalizedLocation = strtolower($arrayLower['location']);
-
-            switch ($normalizedLocation) {
-                case self::LOCATION_HEAD:
-                    $chassisdefLocations->setHead($chassisdefPart);
-                    break;
-                case self::LOCATION_LEFT_ARM:
-                    $chassisdefLocations->setLeftArm($chassisdefPart);
-                    break;
-                case self::LOCATION_LEFT_TORSO:
-                    $chassisdefLocations->setLeftTorso($chassisdefPart);
-                    break;
-                case self::LOCATION_CENTER_TORSO:
-                    $chassisdefLocations->setCenterTorso($chassisdefPart);
-                    break;
-                case self::LOCATION_RIGHT_TORSO:
-                    $chassisdefLocations->setRightTorso($chassisdefPart);
-                    break;
-                case self::LOCATION_RIGHT_ARM:
-                    $chassisdefLocations->setRightArm($chassisdefPart);
-                    break;
-                case self::LOCATION_LEFT_LEG:
-                    $chassisdefLocations->setLeftLeg($chassisdefPart);
-                    break;
-                case self::LOCATION_RIGHT_LEG:
-                    $chassisdefLocations->setRightLeg($chassisdefPart);
-                    break;
-                default:
-                    throw ChassisdefException::invalidChassisdefLocation($normalizedLocation);
-            }
-        }
-
-        return $chassisdefLocations;
+        $this->rightTorso = $rightTorso;
     }
 }

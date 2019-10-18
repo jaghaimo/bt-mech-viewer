@@ -11,7 +11,7 @@ class ChassisdefTableView extends Table
     /**
      * @param ChassisdefCollection $chassisdefCollection
      */
-    public function setChassisdefs(ChassisdefCollection $chassisdefCollection)
+    public function setChassisdefs(ChassisdefCollection $chassisdefCollection): void
     {
         $this->setHeaders(
             ['Class', 'Tonnage', 'Name', 'Variant', 'Tags', 'Cost', 'B', 'E', 'M', 'S', 'Bundle']
@@ -30,7 +30,7 @@ class ChassisdefTableView extends Table
                 $chassisdefEntity->getLocations()->getTotalHardpoints(ChassisdefHardpoints::HARDPOINT_ENERGY),
                 $chassisdefEntity->getLocations()->getTotalHardpoints(ChassisdefHardpoints::HARDPOINT_MISSILE),
                 $chassisdefEntity->getLocations()->getTotalHardpoints(ChassisdefHardpoints::HARDPOINT_ANTI_PERSONNEL),
-                $chassisdefEntity->getBundle()
+                $chassisdefEntity->getBundle(),
             ]);
         }
 
@@ -40,17 +40,17 @@ class ChassisdefTableView extends Table
     /**
      * @param ChassisdefCollection $chassisdefCollection
      */
-    private function setFooter(ChassisdefCollection $chassisdefCollection)
+    private function setFooter(ChassisdefCollection $chassisdefCollection): void
     {
         $totalCount = $chassisdefCollection->getTotalCount();
         $matchingCount = $chassisdefCollection->getMatchingCount();
         $filteredCount = $totalCount - $matchingCount;
 
-        $chassisdefText = $matchingCount === 1 ? 'chassisdef' : 'chassisdefs';
-        $footer = "Found $matchingCount $chassisdefText matching your query";
+        $chassisdefText = 1 === $matchingCount ? 'chassisdef' : 'chassisdefs';
+        $footer = "Found {$matchingCount} {$chassisdefText} matching your query";
 
         if ($filteredCount > 0) {
-            $footer .= " ($filteredCount removed by filters)";
+            $footer .= " ({$filteredCount} removed by filters)";
         }
 
         $this->setFooterTitle($footer);

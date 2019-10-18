@@ -25,6 +25,25 @@ class ConfigEntity
     }
 
     /**
+     * @param array $array
+     *
+     * @throws ConfigException
+     *
+     * @return ConfigEntity
+     */
+    public static function fromArray(array $array)
+    {
+        try {
+            return new self(
+                $array['includeDirectories'],
+                $array['excludeDirectories']
+            );
+        } catch (\Throwable $throwable) {
+            throw ConfigException::missingProperty($throwable);
+        }
+    }
+
+    /**
      * @return string[]
      */
     public function getExcludeDirectories(): array
@@ -38,24 +57,5 @@ class ConfigEntity
     public function getIncludeDirectories(): array
     {
         return $this->includeDirectories;
-    }
-
-    /**
-     * @param array $array
-     *
-     * @return ConfigEntity
-     *
-     * @throws ConfigException
-     */
-    public static function fromArray(array $array)
-    {
-        try {
-            return new self(
-                $array['includeDirectories'],
-                $array['excludeDirectories']
-            );
-        } catch (\Throwable $throwable) {
-            throw ConfigException::missingProperty($throwable);
-        }
     }
 }

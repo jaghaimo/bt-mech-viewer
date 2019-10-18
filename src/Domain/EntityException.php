@@ -11,6 +11,6 @@ class EntityException extends \Exception
      */
     public static function getPropertyName(\Throwable $throwable)
     {
-        return (string)substr($throwable->getMessage(), 25);
+        return (string) substr($throwable->getMessage(), 25);
     }
 }

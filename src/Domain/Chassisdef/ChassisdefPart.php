@@ -8,19 +8,19 @@ class ChassisdefPart
     private $hardpoints;
 
     /** @var int */
+    private $internalStructure;
+
+    /** @var int */
     private $maxArmorFront;
 
     /** @var int */
     private $maxArmorRear;
 
-    /** @var int */
-    private $internalStructure;
-
     /**
      * @param ChassisdefHardpoints $hardpoints
-     * @param int $maxArmorFront
-     * @param int $maxArmorRear
-     * @param int $internalStructure
+     * @param int                  $maxArmorFront
+     * @param int                  $maxArmorRear
+     * @param int                  $internalStructure
      */
     public function __construct(
         ChassisdefHardpoints $hardpoints,
@@ -32,40 +32,6 @@ class ChassisdefPart
         $this->maxArmorFront = $maxArmorFront;
         $this->maxArmorRear = $maxArmorRear;
         $this->internalStructure = $internalStructure;
-    }
-
-    /**
-     * @param string $hardpointType
-     *
-     * @return int
-     */
-    public function getHardpoints(string $hardpointType): int
-    {
-        return $this->hardpoints->getHardpoints($hardpointType);
-    }
-
-    /**
-     * @return int
-     */
-    public function getMaxArmorFront(): int
-    {
-        return $this->maxArmorFront;
-    }
-
-    /**
-     * @return int
-     */
-    public function getMaxArmorRear(): int
-    {
-        return $this->maxArmorRear;
-    }
-
-    /**
-     * @return int
-     */
-    public function getInternalStructure(): int
-    {
-        return $this->internalStructure;
     }
 
     /**
@@ -83,6 +49,40 @@ class ChassisdefPart
             $arrayLower['maxreararmor'],
             $arrayLower['internalstructure']
         );
+    }
+
+    /**
+     * @param string $hardpointType
+     *
+     * @return int
+     */
+    public function getHardpoints(string $hardpointType): int
+    {
+        return $this->hardpoints->getHardpoints($hardpointType);
+    }
+
+    /**
+     * @return int
+     */
+    public function getInternalStructure(): int
+    {
+        return $this->internalStructure;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMaxArmorFront(): int
+    {
+        return $this->maxArmorFront;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMaxArmorRear(): int
+    {
+        return $this->maxArmorRear;
     }
 
     /**

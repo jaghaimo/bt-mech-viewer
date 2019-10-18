@@ -10,6 +10,11 @@ class ChassisdefEntity
     private $bundle;
 
     /**
+     * @var string
+     */
+    private $class;
+
+    /**
      * @var int
      */
     private $cost;
@@ -17,7 +22,7 @@ class ChassisdefEntity
     /**
      * @var string
      */
-    private $class;
+    private $id;
 
     /**
      * @var ChassisdefLocations
@@ -45,15 +50,15 @@ class ChassisdefEntity
     private $variant;
 
     /**
-     * @param string $id
-     * @param string $bundle
-     * @param string $class
-     * @param string $name
-     * @param int $cost
-     * @param int $tonnage
-     * @param string $variant
+     * @param string              $id
+     * @param string              $bundle
+     * @param string              $class
+     * @param string              $name
+     * @param int                 $cost
+     * @param int                 $tonnage
+     * @param string              $variant
      * @param ChassisdefLocations $locations
-     * @param ChassisdefTags $tags
+     * @param ChassisdefTags      $tags
      */
     public function __construct(
         string $id,
@@ -78,12 +83,12 @@ class ChassisdefEntity
     }
 
     /**
-     * @param array $chassisDef
+     * @param array  $chassisDef
      * @param string $bundle
      *
-     * @return ChassisdefEntity
-     *
      * @throws ChassisdefException
+     *
+     * @return ChassisdefEntity
      */
     public static function fromArray(array $chassisDef, string $bundle): ChassisdefEntity
     {
@@ -118,19 +123,19 @@ class ChassisdefEntity
     }
 
     /**
-     * @return int
-     */
-    public function getCost(): int
-    {
-        return $this->cost;
-    }
-
-    /**
      * @return string
      */
     public function getClass(): string
     {
         return $this->class;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCost(): int
+    {
+        return $this->cost;
     }
 
     /**
@@ -142,19 +147,19 @@ class ChassisdefEntity
     }
 
     /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
      * @return ChassisdefLocations
      */
     public function getLocations(): ChassisdefLocations
     {
         return $this->locations;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
     }
 
     /**

@@ -13,7 +13,7 @@ class ChassisdefException extends EntityException
      */
     public static function invalidChassisdefHardpoint(string $hardpoint): ChassisdefException
     {
-        return new self("Invalid chassisdef hardpoint: $hardpoint");
+        return new self("Invalid chassisdef hardpoint: {$hardpoint}");
     }
 
     /**
@@ -23,7 +23,7 @@ class ChassisdefException extends EntityException
      */
     public static function invalidChassisdefLocation(string $location): ChassisdefException
     {
-        return new self("Invalid chassisdef location: $location");
+        return new self("Invalid chassisdef location: {$location}");
     }
 
     /**
@@ -35,6 +35,6 @@ class ChassisdefException extends EntityException
     {
         $property = self::getPropertyName($throwable);
 
-        return new self("Missing chassisdef property: $property");
+        return new self("Missing chassisdef property: {$property}");
     }
 }
