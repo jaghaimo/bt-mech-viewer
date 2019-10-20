@@ -35,9 +35,9 @@ class ChassisdefListCommand extends Command
         parent::configure();
         $this
             ->setDescription('List chassisdefs defined in the configured folder.')
-            ->addOption('filename', null, InputOption::VALUE_OPTIONAL, 'Limit output to given chassisdef files (default: *)', '*')
+            ->addOption('filename', null, InputOption::VALUE_OPTIONAL, 'Limit output to given chassisdef files', '*')
             ->addOption('bundle', null, InputOption::VALUE_OPTIONAL, 'Filter output based on bundle (string)')
-            ->addOption('class', null, InputOption::VALUE_OPTIONAL, 'Filter output based on class (enum: light, medium, heavy, assault)')
+            ->addOption('class', null, InputOption::VALUE_OPTIONAL, 'Filter output based on class (string)')
             ->addOption('tonnage', null, InputOption::VALUE_OPTIONAL, 'Filter output based on tonnage (integer)')
         ;
     }

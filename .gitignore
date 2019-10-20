@@ -9,6 +9,7 @@
 
 ###> IDE & tools
 /.idea/
+/nbproject/
 ###< IDE & tools
 
 ###> BTMV
