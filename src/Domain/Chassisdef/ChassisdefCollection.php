@@ -54,20 +54,20 @@ final class ChassisdefCollection
     }
 
     /**
-     * @param ChassisdefEntity[] $chasisDefEntities
+     * @param ChassisdefEntity[] $chasisdefEntities
      * @param ChassisdefFilter   $chassisdefFilter
      *
      * @return ChassisdefCollection
      *
      * @psalm-suppress RedundantConditionGivenDocblockType
      */
-    public static function fromArray(array $chasisDefEntities, ChassisdefFilter $chassisdefFilter)
+    public static function fromArray(array $chasisdefEntities, ChassisdefFilter $chassisdefFilter)
     {
         $collection = new self($chassisdefFilter);
 
-        foreach ($chasisDefEntities as $chasisDefEntity) {
-            if ($chasisDefEntity instanceof ChassisdefEntity) {
-                $collection->add($chasisDefEntity);
+        foreach ($chasisdefEntities as $chasisdefEntity) {
+            if ($chasisdefEntity instanceof ChassisdefEntity) {
+                $collection->add($chasisdefEntity);
             }
         }
 

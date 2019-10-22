@@ -9,6 +9,7 @@ use Symfony\Component\Finder\SplFileInfo;
 
 final class ChassisdefFactory
 {
+    // Location where bundle information is stored (relative to chassidef file)
     const BUNDLE_OFFSET = 3;
 
     /**
