@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Btmv\Domain\Chassisdef;
 
-class ChassisdefHardpoints
+final class ChassisdefHardpoints
 {
     const HARDPOINT_ANTI_PERSONNEL = 'antipersonnel';
     const HARDPOINT_BALLISTIC = 'ballistic';

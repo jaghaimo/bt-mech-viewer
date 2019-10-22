@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Btmv\Domain;
 
-class EntityException extends \Exception
+abstract class EntityException extends \Exception
 {
     /**
      * @param \Throwable $throwable

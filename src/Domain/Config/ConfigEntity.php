@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Btmv\Domain\Config;
 
-class ConfigEntity
+final class ConfigEntity
 {
     /**
      * @var string[]

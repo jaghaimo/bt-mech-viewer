@@ -6,7 +6,7 @@ namespace Btmv\Domain\Chassisdef;
 
 use Symfony\Component\Finder\Finder;
 
-class ChassisdefService
+final class ChassisdefService
 {
     const CHASSISDEF_PATTERN = '/^chassisdef\_%s\.json$/i';
 

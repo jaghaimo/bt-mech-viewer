@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Btmv\Domain\Chassisdef;
 
-class ChassisdefLocations
+final class ChassisdefLocations
 {
     const LOCATION_CENTER_TORSO = 'centertorso';
     const LOCATION_HEAD = 'head';

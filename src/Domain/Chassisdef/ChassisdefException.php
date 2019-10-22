@@ -6,7 +6,7 @@ namespace Btmv\Domain\Chassisdef;
 
 use Btmv\Domain\EntityException;
 
-class ChassisdefException extends EntityException
+final class ChassisdefException extends EntityException
 {
     /**
      * @param string $hardpoint

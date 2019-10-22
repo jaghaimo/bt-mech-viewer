@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Btmv\Utils\Json;
 
-class JsonHelper
+final class JsonHelper
 {
     /**
      * @param string $jsonFile

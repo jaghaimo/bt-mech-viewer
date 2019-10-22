@@ -4,6 +4,6 @@ declare(strict_types=1);
 
 namespace Btmv\Utils\Json;
 
-class JsonNotReadException extends \RuntimeException
+final class JsonNotReadException extends \RuntimeException
 {
 }

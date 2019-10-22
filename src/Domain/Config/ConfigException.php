@@ -6,7 +6,7 @@ namespace Btmv\Domain\Config;
 
 use Btmv\Domain\EntityException;
 
-class ConfigException extends EntityException
+final class ConfigException extends EntityException
 {
     /**
      * @param \Throwable $throwable

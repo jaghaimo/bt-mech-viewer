@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Btmv\Domain\Chassisdef;
 
-class ChassisdefCollection
+final class ChassisdefCollection
 {
     /**
      * @var ChassisdefEntity[]

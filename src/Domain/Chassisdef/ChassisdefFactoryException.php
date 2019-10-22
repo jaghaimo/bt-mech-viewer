@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Btmv\Domain\Chassisdef;
 
-class ChassisdefFactoryException extends \Exception
+final class ChassisdefFactoryException extends \Exception
 {
     /**
      * @param string     $filename

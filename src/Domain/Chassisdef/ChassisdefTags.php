@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Btmv\Domain\Chassisdef;
 
-class ChassisdefTags
+final class ChassisdefTags
 {
     const TAG_BLACKLISTED = 'blacklisted';
     const TAG_CLAN = 'clanmech';

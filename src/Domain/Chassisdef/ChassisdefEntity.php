@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Btmv\Domain\Chassisdef;
 
-class ChassisdefEntity
+final class ChassisdefEntity
 {
     /**
      * @var string

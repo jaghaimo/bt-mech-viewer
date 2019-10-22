@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Btmv\Domain\Chassisdef;
 
-class ChassisdefFilter
+final class ChassisdefFilter
 {
     /**
      * @var null|string

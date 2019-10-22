@@ -7,7 +7,7 @@ namespace Btmv\Domain\Chassisdef;
 use Btmv\Utils\Json\JsonHelper;
 use Symfony\Component\Finder\SplFileInfo;
 
-class ChassisdefFactory
+final class ChassisdefFactory
 {
     const BUNDLE_OFFSET = 3;
 

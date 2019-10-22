@@ -8,7 +8,7 @@ use Btmv\Utils\Json\JsonHelper;
 use Btmv\Utils\Json\JsonNotDecodedException;
 use Btmv\Utils\Json\JsonNotReadException;
 
-class ConfigService
+final class ConfigService
 {
     const DEFAULT_CONFIG_FILE = 'btmv.json';
 

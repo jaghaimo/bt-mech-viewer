@@ -9,7 +9,7 @@ use Btmv\Domain\Chassisdef\ChassisdefFilter;
 use Btmv\Domain\Chassisdef\ChassisdefService;
 use Btmv\Domain\Config\ConfigService;
 
-class ChassisdefListAction
+final class ChassisdefListAction
 {
     /**
      * @var ChassisdefFilter

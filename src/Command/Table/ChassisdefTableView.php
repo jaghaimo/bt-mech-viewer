@@ -8,7 +8,7 @@ use Btmv\Domain\Chassisdef\ChassisdefCollection;
 use Btmv\Domain\Chassisdef\ChassisdefHardpoints;
 use Symfony\Component\Console\Helper\Table;
 
-class ChassisdefTableView extends Table
+final class ChassisdefTableView extends Table
 {
     /**
      * @param ChassisdefCollection $chassisdefCollection
