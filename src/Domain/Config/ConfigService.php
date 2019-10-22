@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Btmv\Domain\Config;
 
 use Btmv\Utils\Json\JsonHelper;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Btmv\Domain\Chassisdef;
 
 use Btmv\Utils\Json\JsonHelper;

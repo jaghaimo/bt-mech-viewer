@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Btmv\Command\Table;
 
 use Btmv\Domain\Chassisdef\ChassisdefCollection;
