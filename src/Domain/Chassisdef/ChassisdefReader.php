@@ -7,7 +7,7 @@ namespace Btmv\Domain\Chassisdef;
 use Btmv\Utils\Json\JsonHelper;
 use Symfony\Component\Finder\SplFileInfo;
 
-final class ChassisdefFactory
+final class ChassisdefReader
 {
     // Location where bundle information is stored (relative to chassidef file)
     const BUNDLE_OFFSET = 3;
@@ -28,7 +28,7 @@ final class ChassisdefFactory
     /**
      * @param SplFileInfo $fileInfo
      *
-     * @throws ChassisdefFactoryException
+     * @throws ChassisdefReaderException
      *
      * @return ChassisdefEntity
      */
@@ -44,7 +44,7 @@ final class ChassisdefFactory
 
             return ChassisdefEntity::fromArray($chassisdefArray, $bundle);
         } catch (\Throwable $throwable) {
-            throw ChassisdefFactoryException::brokenChassisdef($chassisdef, $throwable);
+            throw ChassisdefReaderException::brokenChassisdef($chassisdef, $throwable);
         }
     }
 }

@@ -8,6 +8,7 @@
 ###< symfony/framework-bundle ###
 
 ###> IDE & tools
+*.swp
 /.idea/
 /nbproject/
 ###< IDE & tools

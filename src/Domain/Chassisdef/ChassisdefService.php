@@ -11,9 +11,9 @@ final class ChassisdefService
     const CHASSISDEF_PATTERN = '/^chassisdef\_%s\.json$/i';
 
     /**
-     * @var ChassisdefFactory
+     * @var ChassisdefReader
      */
-    private $chassisdefFactory;
+    private $chassisdefReader;
 
     /**
      * @var Finder
@@ -21,13 +21,13 @@ final class ChassisdefService
     private $finder;
 
     /**
-     * @param Finder            $finder
-     * @param ChassisdefFactory $chassisdefFactory
+     * @param Finder           $finder
+     * @param ChassisdefReader $chassisdefReader
      */
-    public function __construct(Finder $finder, ChassisdefFactory $chassisdefFactory)
+    public function __construct(Finder $finder, ChassisdefReader $chassisdefReader)
     {
         $this->finder = $finder;
-        $this->chassisdefFactory = $chassisdefFactory;
+        $this->chassisdefReader = $chassisdefReader;
     }
 
     /**
@@ -48,11 +48,8 @@ final class ChassisdefService
         $this->configureFinder($includeDirs, $excludeDirs, $filename);
 
         foreach ($this->finder->getIterator() as $fileInfo) {
-            $chassisdef = $this->chassisdefFactory->get($fileInfo);
-
-            if (!$chassisdef->getTags()->isBlacklisted()) {
-                $chassisdefs[] = $chassisdef;
-            }
+            $chassisdef = $this->chassisdefReader->get($fileInfo);
+            $chassisdefs[] = $chassisdef;
         }
 
         return ChassisdefCollection::fromArray($chassisdefs, $chassisdefFilter);

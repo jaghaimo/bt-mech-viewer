@@ -28,6 +28,7 @@ final class ChassisdefFilter
      */
     public function isMatching(ChassisdefEntity $chassisdefEntity)
     {
+        $isNotBlacklisted = !$chassisdefEntity->getTags()->isBlacklisted();
         $isMatchingBundle = true;
         $isMatchingClass = true;
         $isMatchingTonnage = true;
@@ -44,7 +45,7 @@ final class ChassisdefFilter
             $isMatchingTonnage = $chassisdefEntity->getTonnage() === $this->tonnage;
         }
 
-        return $isMatchingBundle && $isMatchingClass && $isMatchingTonnage;
+        return $isNotBlacklisted && $isMatchingBundle && $isMatchingClass && $isMatchingTonnage;
     }
 
     /**
