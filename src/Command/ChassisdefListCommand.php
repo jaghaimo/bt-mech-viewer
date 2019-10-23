@@ -54,7 +54,7 @@ final class ChassisdefListCommand extends Command
     {
         $filename = (string) $this->getInputValue($input, 'filename');
         $filters = $this->getFilters($input);
-        $chassisdefs = $this->chassisdefListAction->execute($filename, $filters);
+        $chassisdefs = $this->chassisdefListAction->handle($filename, $filters);
 
         $table = new ChassisdefTableView($output);
         $table->setChassisdefs($chassisdefs);

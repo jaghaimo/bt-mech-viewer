@@ -47,7 +47,7 @@ final class ChassisdefListAction
      *
      * @return ChassisdefCollection
      */
-    public function execute(string $filename, array $filters = []): ChassisdefCollection
+    public function handle(string $filename, array $filters = []): ChassisdefCollection
     {
         $config = $this->configService->getConfig();
         $modsDirectory = $config->getIncludeDirectories();
