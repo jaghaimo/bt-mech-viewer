@@ -1,3 +1,7 @@
+# https://github.com/sebastianbergmann/phploc
+loc:
+	@./vendor/bin/phploc src/
+
 # https://github.com/FriendsOfPHP/PHP-CS-Fixer
 cs-fixer:
 	@./vendor/bin/php-cs-fixer fix --verbose --show-progress=estimating --allow-risky=yes
