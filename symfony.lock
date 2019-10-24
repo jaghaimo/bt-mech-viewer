@@ -56,6 +56,9 @@
     "openlss/lib-array2xml": {
         "version": "1.0.0"
     },
+    "pdepend/pdepend": {
+        "version": "2.5.2"
+    },
     "php-cs-fixer/diff": {
         "version": "v1.3.0"
     },
@@ -70,6 +73,9 @@
     },
     "phploc/phploc": {
         "version": "5.0.0"
+    },
+    "phpmd/phpmd": {
+        "version": "2.7.0"
     },
     "psr/cache": {
         "version": "1.0.1"

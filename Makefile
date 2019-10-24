@@ -1,11 +1,15 @@
-# https://github.com/sebastianbergmann/phploc
-loc:
+.PHONY: tests cs-fixer phploc phpmd psalm
+
+tests: cs-fixer phpmd psalm
+
+phpmd:
+	@./vendor/bin/phpmd src/ text codesize,design
+
+phploc:
 	@./vendor/bin/phploc src/
 
-# https://github.com/FriendsOfPHP/PHP-CS-Fixer
 cs-fixer:
 	@./vendor/bin/php-cs-fixer fix --verbose --show-progress=estimating --allow-risky=yes
 
-# https://github.com/vimeo/psalm
 psalm:
 	@./vendor/bin/psalm src/
