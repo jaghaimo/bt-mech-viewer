@@ -52,68 +52,23 @@ final class ChassisdefEntity
     private $variant;
 
     /**
-     * @param string              $id
-     * @param string              $bundle
-     * @param string              $class
-     * @param string              $name
-     * @param int                 $cost
-     * @param int                 $tonnage
-     * @param string              $variant
-     * @param ChassisdefLocations $locations
-     * @param ChassisdefTags      $tags
+     * @param string $bundle
+     * @param array  $chassisdef
      */
     public function __construct(
-        string $id,
         string $bundle,
-        string $class,
-        string $name,
-        int $cost,
-        int $tonnage,
-        string $variant,
-        ChassisdefLocations $locations,
-        ChassisdefTags $tags
+        array $chassisdef
     ) {
-        $this->id = $id;
+        $this->id = strtolower($chassisdef['Description']['Id']);
         $this->bundle = $bundle;
-        $this->class = $class;
-        $this->name = $name;
-        $this->cost = $cost;
-        $this->tonnage = $tonnage;
-        $this->variant = $variant;
-        $this->locations = $locations;
-        $this->tags = $tags;
-    }
+        $this->class = ucfirst($chassisdef['weightClass']);
+        $this->name = ucfirst($chassisdef['Description']['Name']);
+        $this->cost = (int) $chassisdef['Description']['Cost'];
+        $this->tonnage = (int) $chassisdef['Tonnage'];
+        $this->variant = strtoupper($chassisdef['VariantName']);
 
-    /**
-     * @param array  $chassisDef
-     * @param string $bundle
-     *
-     * @throws ChassisdefException
-     *
-     * @return ChassisdefEntity
-     */
-    public static function fromArray(array $chassisDef, string $bundle): ChassisdefEntity
-    {
-        try {
-            $arrayLower = array_change_key_case($chassisDef, CASE_LOWER);
-            $arrayDescription = array_change_key_case($arrayLower['description'], CASE_LOWER);
-
-            return new self(
-                strtolower($arrayDescription['id']),
-                $bundle,
-                ucfirst($arrayLower['weightclass']),
-                ucfirst($arrayDescription['name']),
-                (int) $arrayDescription['cost'],
-                (int) $arrayLower['tonnage'],
-                strtoupper($arrayLower['variantname']),
-                ChassisdefLocations::fromArray($arrayLower['locations']),
-                ChassisdefTags::fromArray($arrayLower['chassistags'])
-            );
-        } catch (ChassisdefException $chassisdefException) {
-            throw $chassisdefException;
-        } catch (\Throwable $throwable) {
-            throw ChassisdefException::missingProperty($throwable);
-        }
+        $this->locations = new ChassisdefLocations($chassisdef['Locations']);
+        $this->tags = new ChassisdefTags($chassisdef['ChassisTags']);
     }
 
     /**

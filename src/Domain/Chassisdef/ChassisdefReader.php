@@ -34,17 +34,17 @@ final class ChassisdefReader
      */
     public function get(SplFileInfo $fileInfo)
     {
-        $chassisdef = $fileInfo->getRealPath();
-        $chassisdefChunks = explode(DIRECTORY_SEPARATOR, $chassisdef);
+        $chassisdefPath = $fileInfo->getRealPath();
+        $chassisdefChunks = explode(DIRECTORY_SEPARATOR, $chassisdefPath);
         $totalChunks = count($chassisdefChunks);
         $bundle = $chassisdefChunks[$totalChunks - self::BUNDLE_OFFSET];
 
         try {
-            $chassisdefArray = $this->jsonHelper->read($chassisdef);
+            $chassisdef = $this->jsonHelper->read($chassisdefPath);
 
-            return ChassisdefEntity::fromArray($chassisdefArray, $bundle);
+            return new ChassisdefEntity($bundle, $chassisdef);
         } catch (\Throwable $throwable) {
-            throw ChassisdefReaderException::brokenChassisdef($chassisdef, $throwable);
+            throw ChassisdefReaderException::brokenChassisdef($chassisdefPath, $throwable);
         }
     }
 }

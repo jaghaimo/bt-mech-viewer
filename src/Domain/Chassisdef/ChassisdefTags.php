@@ -36,28 +36,24 @@ final class ChassisdefTags
     private $isOmni = false;
 
     /**
-     * @param array $array
-     *
-     * @return ChassisdefTags
+     * @param array $tags
      */
-    public static function fromArray(array $array): ChassisdefTags
+    public function __construct(array $tags)
     {
-        $chassisdefTags = new ChassisdefTags();
-
-        foreach ($array['items'] as $tag) {
+        foreach ($tags['items'] as $tag) {
             $tagLower = strtolower($tag);
 
             switch ($tagLower) {
                 case self::TAG_BLACKLISTED:
-                    $chassisdefTags->setBlacklisted(true);
+                    $this->setBlacklisted(true);
 
                     break;
                 case self::TAG_CLAN:
-                    $chassisdefTags->setClan(true);
+                    $this->setClan(true);
 
                     break;
                 case self::TAG_OMNI:
-                    $chassisdefTags->setOmni(true);
+                    $this->setOmni(true);
 
                     break;
                 case self::TAG_ELITE:
@@ -73,8 +69,6 @@ final class ChassisdefTags
                     break;
             }
         }
-
-        return $chassisdefTags;
     }
 
     /**

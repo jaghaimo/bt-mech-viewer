@@ -12,6 +12,9 @@ final class ChassisdefPart
     /** @var int */
     private $internalStructure;
 
+    /** @var string */
+    private $location;
+
     /** @var int */
     private $maxArmorFront;
 
@@ -19,38 +22,15 @@ final class ChassisdefPart
     private $maxArmorRear;
 
     /**
-     * @param ChassisdefHardpoints $hardpoints
-     * @param int                  $maxArmorFront
-     * @param int                  $maxArmorRear
-     * @param int                  $internalStructure
+     * @param array $parts
      */
-    public function __construct(
-        ChassisdefHardpoints $hardpoints,
-        int $maxArmorFront,
-        int $maxArmorRear,
-        int $internalStructure
-    ) {
-        $this->hardpoints = $hardpoints;
-        $this->maxArmorFront = $maxArmorFront;
-        $this->maxArmorRear = $maxArmorRear;
-        $this->internalStructure = $internalStructure;
-    }
-
-    /**
-     * @param array $array
-     *
-     * @return ChassisdefPart
-     */
-    public static function fromArray(array $array): ChassisdefPart
+    public function __construct(array $parts)
     {
-        $arrayLower = array_change_key_case($array, CASE_LOWER);
-
-        return new self(
-            ChassisdefHardpoints::fromArray($arrayLower['hardpoints']),
-            $arrayLower['maxarmor'],
-            $arrayLower['maxreararmor'],
-            $arrayLower['internalstructure']
-        );
+        $this->hardpoints = new ChassisdefHardpoints($parts['Hardpoints']);
+        $this->location = $parts['Location'];
+        $this->maxArmorFront = $parts['MaxArmor'];
+        $this->maxArmorRear = $parts['MaxRearArmor'];
+        $this->internalStructure = $parts['InternalStructure'];
     }
 
     /**
@@ -72,6 +52,14 @@ final class ChassisdefPart
     }
 
     /**
+     * @return string
+     */
+    public function getLocation(): string
+    {
+        return $this->location;
+    }
+
+    /**
      * @return int
      */
     public function getMaxArmorFront(): int
@@ -85,13 +73,5 @@ final class ChassisdefPart
     public function getMaxArmorRear(): int
     {
         return $this->maxArmorRear;
-    }
-
-    /**
-     * @return ChassisdefPart
-     */
-    public static function makeEmpty(): ChassisdefPart
-    {
-        return new self(new ChassisdefHardpoints(), 0, 0, 0);
     }
 }

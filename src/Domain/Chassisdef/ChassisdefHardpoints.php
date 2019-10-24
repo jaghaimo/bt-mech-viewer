@@ -33,6 +33,44 @@ final class ChassisdefHardpoints
      */
     private $missile = 0;
 
+    /**
+     * @param array $hardpoints
+     */
+    public function __construct(array $hardpoints)
+    {
+        foreach ($hardpoints as $hardpoint) {
+            $isOmni = $hardpoint['Omni'];
+            $weaponMount = strtolower($hardpoint['WeaponMount']);
+
+            if ($isOmni) {
+                $this->setOmni($isOmni);
+
+                break;
+            }
+
+            switch ($weaponMount) {
+                case self::HARDPOINT_ANTI_PERSONNEL:
+                    $this->addAntiPersonnel();
+
+                    break;
+                case self::HARDPOINT_BALLISTIC:
+                    $this->addBallistic();
+
+                    break;
+                case self::HARDPOINT_ENERGY:
+                    $this->addEnergy();
+
+                    break;
+                case self::HARDPOINT_MISSILE:
+                    $this->addMissile();
+
+                    break;
+                default:
+                    throw ChassisdefException::invalidChassisdefHardpoint($weaponMount);
+            }
+        }
+    }
+
     public function addAntiPersonnel(): void
     {
         ++$this->antiPersonnel;
@@ -51,53 +89,6 @@ final class ChassisdefHardpoints
     public function addMissile(): void
     {
         ++$this->missile;
-    }
-
-    /**
-     * @param array $array
-     *
-     * @throws ChassisdefException
-     *
-     * @return ChassisdefHardpoints
-     */
-    public static function fromArray(array $array): ChassisdefHardpoints
-    {
-        $mechHardpoints = new self();
-
-        foreach ($array as $hardpoint) {
-            $arrayLower = array_change_key_case($hardpoint, CASE_LOWER);
-            $isOmni = $arrayLower['omni'];
-            $weaponMount = strtolower($arrayLower['weaponmount']);
-
-            if ($isOmni) {
-                $mechHardpoints->setOmni($isOmni);
-
-                break;
-            }
-
-            switch ($weaponMount) {
-                case self::HARDPOINT_ANTI_PERSONNEL:
-                    $mechHardpoints->addAntiPersonnel();
-
-                    break;
-                case self::HARDPOINT_BALLISTIC:
-                    $mechHardpoints->addBallistic();
-
-                    break;
-                case self::HARDPOINT_ENERGY:
-                    $mechHardpoints->addEnergy();
-
-                    break;
-                case self::HARDPOINT_MISSILE:
-                    $mechHardpoints->addMissile();
-
-                    break;
-                default:
-                    throw ChassisdefException::invalidChassisdefHardpoint($weaponMount);
-            }
-        }
-
-        return $mechHardpoints;
     }
 
     /**
