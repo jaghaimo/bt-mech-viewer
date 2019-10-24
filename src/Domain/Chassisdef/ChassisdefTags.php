@@ -9,6 +9,7 @@ final class ChassisdefTags
     const TAG_BLACKLISTED = 'blacklisted';
     const TAG_CLAN = 'clanmech';
     const TAG_ELITE = 'elitemech';
+    const TAG_EMPTY = ' ';
     const TAG_HERO = 'heromech';
     const TAG_OMNI = 'omnimech';
     const TAG_PRIMITIVE = 'primitive';
@@ -35,10 +36,10 @@ final class ChassisdefTags
 
     public function getShortTags(): string
     {
-        $clanTag = $this->isClan() ? self::TAG_CLAN[0] : ' ';
-        $omniTag = $this->isOmni() ? self::TAG_OMNI[0] : ' ';
+        $clanTag = $this->isClan() ? self::TAG_CLAN[0] : self::TAG_EMPTY;
+        $omniTag = $this->isOmni() ? self::TAG_OMNI[0] : self::TAG_EMPTY;
 
-        return strtoupper($clanTag . ' ' . $omniTag);
+        return strtoupper($clanTag . $omniTag);
     }
 
     public function isBlacklisted(): bool
