@@ -21,59 +21,18 @@ final class ChassisdefTags
     const TAG_SUPERHEAVY = 'superheavy';
 
     /**
-     * @var bool
+     * @var array
      */
-    private $isBlacklisted = false;
+    private $tags = [];
 
-    /**
-     * @var bool
-     */
-    private $isClan = false;
-
-    /**
-     * @var bool
-     */
-    private $isOmni = false;
-
-    /**
-     * @param array $tags
-     */
     public function __construct(array $tags)
     {
         foreach ($tags['items'] as $tag) {
             $tagLower = strtolower($tag);
-
-            switch ($tagLower) {
-                case self::TAG_BLACKLISTED:
-                    $this->setBlacklisted(true);
-
-                    break;
-                case self::TAG_CLAN:
-                    $this->setClan(true);
-
-                    break;
-                case self::TAG_OMNI:
-                    $this->setOmni(true);
-
-                    break;
-                case self::TAG_ELITE:
-                case self::TAG_HERO:
-                case self::TAG_PRIMITIVE:
-                case self::TAG_PROJECTB:
-                case self::TAG_PROTO:
-                case self::TAG_PROTOTYPE:
-                case self::TAG_RISC:
-                case self::TAG_SLDF:
-                case self::TAG_SOCIETY:
-                case self::TAG_SUPERHEAVY:
-                    break;
-            }
+            $this->tags[$tagLower] = $tagLower;
         }
     }
 
-    /**
-     * @return string
-     */
     public function getShortTags(): string
     {
         $clanTag = $this->isClan() ? self::TAG_CLAN[0] : ' ';
@@ -82,51 +41,23 @@ final class ChassisdefTags
         return strtoupper($clanTag . ' ' . $omniTag);
     }
 
-    /**
-     * @return bool
-     */
     public function isBlacklisted(): bool
     {
-        return $this->isBlacklisted;
+        return $this->hasTag(self::TAG_BLACKLISTED);
     }
 
-    /**
-     * @return bool
-     */
     public function isClan(): bool
     {
-        return $this->isClan;
+        return $this->hasTag(self::TAG_CLAN);
     }
 
-    /**
-     * @return bool
-     */
     public function isOmni(): bool
     {
-        return $this->isOmni;
+        return $this->hasTag(self::TAG_OMNI);
     }
 
-    /**
-     * @param bool $isBlacklisted
-     */
-    public function setBlacklisted(bool $isBlacklisted): void
+    private function hasTag(string $tag): bool
     {
-        $this->isBlacklisted = $isBlacklisted;
-    }
-
-    /**
-     * @param bool $isClan
-     */
-    public function setClan(bool $isClan): void
-    {
-        $this->isClan = $isClan;
-    }
-
-    /**
-     * @param bool $isOmni
-     */
-    public function setOmni(bool $isOmni): void
-    {
-        $this->isOmni = $isOmni;
+        return  array_key_exists($tag, $this->tags);
     }
 }
