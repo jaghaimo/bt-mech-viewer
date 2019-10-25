@@ -52,7 +52,7 @@ final class MechdefService
             $mechdefs[] = $mechdef;
         }
 
-        return MechdefCollection::fromArray($mechdefs, $mechdefFilter);
+        return new MechdefCollection($mechdefs, $mechdefFilter);
     }
 
     /**

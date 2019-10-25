@@ -52,7 +52,7 @@ final class ChassisdefService
             $chassisdefs[] = $chassisdef;
         }
 
-        return ChassisdefCollection::fromArray($chassisdefs, $chassisdefFilter);
+        return new ChassisdefCollection($chassisdefs, $chassisdefFilter);
     }
 
     /**

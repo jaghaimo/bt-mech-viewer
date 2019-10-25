@@ -22,57 +22,15 @@ final class MechdefCollection implements FilterAwareCollection
     private $mechdefEntities = [];
 
     /**
-     * @var MechdefFilter
-     */
-    private $mechdefFilter;
-
-    /**
      * @var int
      */
     private $totalCount = 0;
 
-    /**
-     * @param MechdefFilter $mechdefFilter
-     */
-    public function __construct(MechdefFilter $mechdefFilter)
+    public function __construct(array $chasisdefEntities, MechdefFilter $mechdefFilter)
     {
-        $this->mechdefFilter = $mechdefFilter;
-    }
-
-    /**
-     * @param MechdefEntity $mechdefEntity
-     */
-    public function add(MechdefEntity $mechdefEntity): void
-    {
-        ++$this->totalCount;
-
-        if ($this->mechdefFilter->isMatching($mechdefEntity)) {
-            ++$this->matchingCount;
-            $key = $mechdefEntity->getId();
-            $this->mechdefEntities[$key] = $mechdefEntity;
-            $this->isSorted = false;
-        }
-    }
-
-    /**
-     * @param MechdefEntity[] $chasisdefEntities
-     * @param MechdefFilter   $mechdefFilter
-     *
-     * @return MechdefCollection
-     *
-     * @psalm-suppress RedundantConditionGivenDocblockType
-     */
-    public static function fromArray(array $chasisdefEntities, MechdefFilter $mechdefFilter)
-    {
-        $collection = new self($mechdefFilter);
-
         foreach ($chasisdefEntities as $chasisdefEntity) {
-            if ($chasisdefEntity instanceof MechdefEntity) {
-                $collection->add($chasisdefEntity);
-            }
+            $this->add($chasisdefEntity, $mechdefFilter);
         }
-
-        return $collection;
     }
 
     /**
@@ -101,6 +59,18 @@ final class MechdefCollection implements FilterAwareCollection
     public function getTotalCount(): int
     {
         return $this->totalCount;
+    }
+
+    private function add(MechdefEntity $mechdefEntity, MechdefFilter $mechdefFilter): void
+    {
+        ++$this->totalCount;
+
+        if ($mechdefFilter->isMatching($mechdefEntity)) {
+            ++$this->matchingCount;
+            $key = $mechdefEntity->getId();
+            $this->mechdefEntities[$key] = $mechdefEntity;
+            $this->isSorted = false;
+        }
     }
 
     private function sort(): void

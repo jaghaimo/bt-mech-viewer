@@ -14,11 +14,6 @@ final class ChassisdefCollection implements FilterAwareCollection
     private $chassisdefEntities = [];
 
     /**
-     * @var ChassisdefFilter
-     */
-    private $chassisdefFilter;
-
-    /**
      * @var bool
      */
     private $isSorted = false;
@@ -33,47 +28,28 @@ final class ChassisdefCollection implements FilterAwareCollection
     private $totalCount = 0;
 
     /**
-     * @param ChassisdefFilter $chassisdefFilter
+     * @param ChassisdefEntity[] $chasisdefEntities
+     * @param ChassisdefFilter   $chassisdefFilter
+     *
+     * @return ChassisdefCollection
      */
-    public function __construct(ChassisdefFilter $chassisdefFilter)
+    public function __construct(array $chasisdefEntities, ChassisdefFilter $chassisdefFilter)
     {
-        $this->chassisdefFilter = $chassisdefFilter;
+        foreach ($chasisdefEntities as $chasisdefEntity) {
+            $this->add($chasisdefEntity, $chassisdefFilter);
+        }
     }
 
-    /**
-     * @param ChassisdefEntity $chassisdefEntity
-     */
-    public function add(ChassisdefEntity $chassisdefEntity): void
+    public function add(ChassisdefEntity $chassisdefEntity, ChassisdefFilter $chassisdefFilter): void
     {
         ++$this->totalCount;
 
-        if ($this->chassisdefFilter->isMatching($chassisdefEntity)) {
+        if ($chassisdefFilter->isMatching($chassisdefEntity)) {
             ++$this->matchingCount;
             $key = $chassisdefEntity->getId();
             $this->chassisdefEntities[$key] = $chassisdefEntity;
             $this->isSorted = false;
         }
-    }
-
-    /**
-     * @param ChassisdefEntity[] $chasisdefEntities
-     * @param ChassisdefFilter   $chassisdefFilter
-     *
-     * @return ChassisdefCollection
-     *
-     * @psalm-suppress RedundantConditionGivenDocblockType
-     */
-    public static function fromArray(array $chasisdefEntities, ChassisdefFilter $chassisdefFilter)
-    {
-        $collection = new self($chassisdefFilter);
-
-        foreach ($chasisdefEntities as $chasisdefEntity) {
-            if ($chasisdefEntity instanceof ChassisdefEntity) {
-                $collection->add($chasisdefEntity);
-            }
-        }
-
-        return $collection;
     }
 
     /**
