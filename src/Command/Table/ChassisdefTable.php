@@ -7,9 +7,23 @@ namespace Btmv\Command\Table;
 use Btmv\Domain\Chassisdef\ChassisdefCollection;
 use Btmv\Domain\Chassisdef\ChassisdefHardpoints;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
-final class ChassisdefTableView extends Table
+final class ChassisdefTable extends Table
 {
+    const ENTITES = 'chassisdef';
+
+    /**
+     * @var FilterAwareCollectionFooter
+     */
+    private $footerProvider;
+
+    public function __construct(ConsoleOutput $output, FilterAwareCollectionFooter $footerProvider)
+    {
+        parent::__construct($output);
+        $this->footerProvider = $footerProvider;
+    }
+
     /**
      * @param ChassisdefCollection $chassisdefCollection
      */
@@ -36,25 +50,7 @@ final class ChassisdefTableView extends Table
             ]);
         }
 
-        $this->setFooter($chassisdefCollection);
-    }
-
-    /**
-     * @param ChassisdefCollection $chassisdefCollection
-     */
-    private function setFooter(ChassisdefCollection $chassisdefCollection): void
-    {
-        $totalCount = $chassisdefCollection->getTotalCount();
-        $matchingCount = $chassisdefCollection->getMatchingCount();
-        $filteredCount = $totalCount - $matchingCount;
-
-        $chassisdefText = 1 === $matchingCount ? 'chassisdef' : 'chassisdefs';
-        $footer = "Found {$matchingCount} {$chassisdefText} matching your query";
-
-        if ($filteredCount > 0) {
-            $footer .= " ({$filteredCount} removed by filters)";
-        }
-
+        $footer = $this->footerProvider->getFooter($chassisdefCollection, self::ENTITES);
         $this->setFooterTitle($footer);
     }
 }

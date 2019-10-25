@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Btmv\Domain\Chassisdef;
 
-final class ChassisdefCollection
+use Btmv\Domain\FilterAwareCollection;
+
+final class ChassisdefCollection implements FilterAwareCollection
 {
     /**
      * @var ChassisdefEntity[]

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Btmv\Domain\Mechdef;
 
-final class MechdefCollection
+use Btmv\Domain\FilterAwareCollection;
+
+final class MechdefCollection implements FilterAwareCollection
 {
     /**
      * @var bool

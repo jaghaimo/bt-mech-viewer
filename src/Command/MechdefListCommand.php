@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Btmv\Command;
 
 use Btmv\Action\MechdefListAction;
-use Btmv\Command\Table\MechdefTableView;
+use Btmv\Command\Table\MechdefTable;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -24,12 +24,15 @@ final class MechdefListCommand extends Command
     private $mechdefListAction;
 
     /**
-     * @param MechdefListAction $mechdefListAction
+     * @var MechdefTable
      */
-    public function __construct(MechdefListAction $mechdefListAction)
+    private $mechdefTable;
+
+    public function __construct(MechdefListAction $mechdefListAction, MechdefTable $mechdefTable)
     {
         parent::__construct();
         $this->mechdefListAction = $mechdefListAction;
+        $this->mechdefTable = $mechdefTable;
     }
 
     protected function configure(): void
@@ -52,11 +55,11 @@ final class MechdefListCommand extends Command
     {
         $filename = (string) $this->getInputValue($input, 'filename');
         $filters = $this->getFilters($input);
+
         $mechdefs = $this->mechdefListAction->handle($filename, $filters);
 
-        $table = new MechdefTableView($output);
-        $table->setMechdefs($mechdefs);
-        $table->render();
+        $this->mechdefTable->setMechdefs($mechdefs);
+        $this->mechdefTable->render();
 
         return 0;
     }

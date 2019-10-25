@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Btmv\Command;
 
 use Btmv\Action\ChassisdefListAction;
-use Btmv\Command\Table\ChassisdefTableView;
+use Btmv\Command\Table\ChassisdefTable;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -24,12 +24,18 @@ final class ChassisdefListCommand extends Command
     private $chassisdefListAction;
 
     /**
+     * @var ChassisdefTable
+     */
+    private $chassisdefTable;
+
+    /**
      * @param ChassisdefListAction $chassisdefListAction
      */
-    public function __construct(ChassisdefListAction $chassisdefListAction)
+    public function __construct(ChassisdefListAction $chassisdefListAction, ChassisdefTable $chassisdefTable)
     {
         parent::__construct();
         $this->chassisdefListAction = $chassisdefListAction;
+        $this->chassisdefTable = $chassisdefTable;
     }
 
     protected function configure(): void
@@ -54,11 +60,11 @@ final class ChassisdefListCommand extends Command
     {
         $filename = (string) $this->getInputValue($input, 'filename');
         $filters = $this->getFilters($input);
+
         $chassisdefs = $this->chassisdefListAction->handle($filename, $filters);
 
-        $table = new ChassisdefTableView($output);
-        $table->setChassisdefs($chassisdefs);
-        $table->render();
+        $this->chassisdefTable->setChassisdefs($chassisdefs);
+        $this->chassisdefTable->render();
 
         return 0;
     }

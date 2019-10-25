@@ -6,12 +6,23 @@ namespace Btmv\Command\Table;
 
 use Btmv\Domain\Mechdef\MechdefCollection;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
-final class MechdefTableView extends Table
+final class MechdefTable extends Table
 {
+    const ENTITES = 'mechdef';
+
     /**
-     * @param MechdefCollection $mechdefCollection
+     * @var FilterAwareCollectionFooter
      */
+    private $footerProvider;
+
+    public function __construct(ConsoleOutput $output, FilterAwareCollectionFooter $footerProvider)
+    {
+        parent::__construct($output);
+        $this->footerProvider = $footerProvider;
+    }
+
     public function setMechdefs(MechdefCollection $mechdefCollection): void
     {
         $this->setHeaders(
@@ -28,25 +39,7 @@ final class MechdefTableView extends Table
             ]);
         }
 
-        $this->setFooter($mechdefCollection);
-    }
-
-    /**
-     * @param MechdefCollection $mechdefCollection
-     */
-    private function setFooter(MechdefCollection $mechdefCollection): void
-    {
-        $totalCount = $mechdefCollection->getTotalCount();
-        $matchingCount = $mechdefCollection->getMatchingCount();
-        $filteredCount = $totalCount - $matchingCount;
-
-        $mechdefText = 1 === $matchingCount ? 'mechdef' : 'mechdefs';
-        $footer = "Found {$matchingCount} {$mechdefText} matching your query";
-
-        if ($filteredCount > 0) {
-            $footer .= " ({$filteredCount} removed by filters)";
-        }
-
+        $footer = $this->footerProvider->getFooter($mechdefCollection, self::ENTITES);
         $this->setFooterTitle($footer);
     }
 }
