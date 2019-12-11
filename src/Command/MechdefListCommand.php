@@ -45,12 +45,6 @@ final class MechdefListCommand extends Command
         ;
     }
 
-    /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
-     * @return int
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $filename = (string) $this->getInputValue($input, 'filename');
@@ -64,11 +58,6 @@ final class MechdefListCommand extends Command
         return 0;
     }
 
-    /**
-     * @param InputInterface $input
-     *
-     * @return array
-     */
     private function getFilters(InputInterface $input): array
     {
         return [
@@ -76,12 +65,6 @@ final class MechdefListCommand extends Command
         ];
     }
 
-    /**
-     * @param InputInterface $input
-     * @param string         $option
-     *
-     * @return null|string
-     */
     private function getInputValue(InputInterface $input, string $option): ?string
     {
         $value = $input->getOption($option);

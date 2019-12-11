@@ -26,11 +26,6 @@ final class ChassisdefListAction
      */
     private $configService;
 
-    /**
-     * @param ChassisdefFilter  $chassisdefFilter
-     * @param ChassisdefService $chassisdefService
-     * @param ConfigService     $configService
-     */
     public function __construct(
         ChassisdefFilter $chassisdefFilter,
         ChassisdefService $chassisdefService,
@@ -41,12 +36,6 @@ final class ChassisdefListAction
         $this->configService = $configService;
     }
 
-    /**
-     * @param string $filename
-     * @param array  $filters
-     *
-     * @return ChassisdefCollection
-     */
     public function handle(string $filename, array $filters = []): ChassisdefCollection
     {
         $config = $this->configService->getConfig();
@@ -62,9 +51,6 @@ final class ChassisdefListAction
         );
     }
 
-    /**
-     * @param array $filters
-     */
     private function populateFilters(array $filters): void
     {
         $this->chassisdefFilter->setBundle($filters['bundle']);

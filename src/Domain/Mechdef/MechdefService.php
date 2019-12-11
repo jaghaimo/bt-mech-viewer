@@ -20,10 +20,6 @@ final class MechdefService
      */
     private $mechdefReader;
 
-    /**
-     * @param Finder        $finder
-     * @param MechdefReader $mechdefReader
-     */
     public function __construct(Finder $finder, MechdefReader $mechdefReader)
     {
         $this->finder = $finder;
@@ -31,12 +27,8 @@ final class MechdefService
     }
 
     /**
-     * @param string[]      $includeDirs
-     * @param string[]      $excludeDirs
-     * @param string        $filename
-     * @param MechdefFilter $mechdefFilter
-     *
-     * @return MechdefCollection
+     * @param string[] $includeDirs
+     * @param string[] $excludeDirs
      */
     public function findMechdefs(
         array $includeDirs,
@@ -58,7 +50,6 @@ final class MechdefService
     /**
      * @param string[] $includeDirs
      * @param string[] $excludeDirs
-     * @param string   $filename
      */
     private function configureFinder(array $includeDirs, array $excludeDirs, string $filename): void
     {
@@ -75,11 +66,6 @@ final class MechdefService
         ;
     }
 
-    /**
-     * @param string $filter
-     *
-     * @return string
-     */
     private function normalize(string $filter): string
     {
         return strtr($filter, ['*' => '.+']);

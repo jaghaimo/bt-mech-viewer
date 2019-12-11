@@ -17,22 +17,15 @@ final class MechdefReader
      */
     private $jsonHelper;
 
-    /**
-     * @param JsonHelper $jsonHelper
-     */
     public function __construct(JsonHelper $jsonHelper)
     {
         $this->jsonHelper = $jsonHelper;
     }
 
     /**
-     * @param SplFileInfo $fileInfo
-     *
      * @throws MechdefReaderException
-     *
-     * @return MechdefEntity
      */
-    public function get(SplFileInfo $fileInfo)
+    public function get(SplFileInfo $fileInfo): MechdefEntity
     {
         $mechdefPath = $fileInfo->getRealPath();
         $mechdefChunks = explode(DIRECTORY_SEPARATOR, $mechdefPath);

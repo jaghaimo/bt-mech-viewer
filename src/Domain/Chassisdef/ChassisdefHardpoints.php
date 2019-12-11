@@ -33,9 +33,6 @@ final class ChassisdefHardpoints
      */
     private $missile = 0;
 
-    /**
-     * @param array $hardpoints
-     */
     public function __construct(array $hardpoints)
     {
         foreach ($hardpoints as $hardpoint) {
@@ -92,11 +89,7 @@ final class ChassisdefHardpoints
     }
 
     /**
-     * @param string $hardpointType
-     *
      * @throws ChassisdefException
-     *
-     * @return int
      */
     public function getHardpoints(string $hardpointType): int
     {
@@ -118,9 +111,6 @@ final class ChassisdefHardpoints
         }
     }
 
-    /**
-     * @param bool $isOmni
-     */
     public function setOmni(bool $isOmni): void
     {
         $this->isOmni = $isOmni;

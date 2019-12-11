@@ -28,9 +28,6 @@ final class ChassisdefListCommand extends Command
      */
     private $chassisdefTable;
 
-    /**
-     * @param ChassisdefListAction $chassisdefListAction
-     */
     public function __construct(ChassisdefListAction $chassisdefListAction, ChassisdefTable $chassisdefTable)
     {
         parent::__construct();
@@ -50,12 +47,6 @@ final class ChassisdefListCommand extends Command
         ;
     }
 
-    /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
-     * @return int
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $filename = (string) $this->getInputValue($input, 'filename');
@@ -69,11 +60,6 @@ final class ChassisdefListCommand extends Command
         return 0;
     }
 
-    /**
-     * @param InputInterface $input
-     *
-     * @return array
-     */
     private function getFilters(InputInterface $input): array
     {
         return [
@@ -83,12 +69,6 @@ final class ChassisdefListCommand extends Command
         ];
     }
 
-    /**
-     * @param InputInterface $input
-     * @param string         $option
-     *
-     * @return null|string
-     */
     private function getInputValue(InputInterface $input, string $option): ?string
     {
         $value = $input->getOption($option);

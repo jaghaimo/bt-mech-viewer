@@ -20,10 +20,6 @@ final class ChassisdefService
      */
     private $finder;
 
-    /**
-     * @param Finder           $finder
-     * @param ChassisdefReader $chassisdefReader
-     */
     public function __construct(Finder $finder, ChassisdefReader $chassisdefReader)
     {
         $this->finder = $finder;
@@ -31,12 +27,8 @@ final class ChassisdefService
     }
 
     /**
-     * @param string[]         $includeDirs
-     * @param string[]         $excludeDirs
-     * @param string           $filename
-     * @param ChassisdefFilter $chassisdefFilter
-     *
-     * @return ChassisdefCollection
+     * @param string[] $includeDirs
+     * @param string[] $excludeDirs
      */
     public function findChassisdefs(
         array $includeDirs,
@@ -58,7 +50,6 @@ final class ChassisdefService
     /**
      * @param string[] $includeDirs
      * @param string[] $excludeDirs
-     * @param string   $filename
      */
     private function configureFinder(array $includeDirs, array $excludeDirs, string $filename): void
     {
@@ -75,11 +66,6 @@ final class ChassisdefService
         ;
     }
 
-    /**
-     * @param string $filter
-     *
-     * @return string
-     */
     private function normalize(string $filter): string
     {
         return strtr($filter, ['*' => '.+']);

@@ -17,17 +17,12 @@ final class ChassisdefReader
      */
     private $jsonHelper;
 
-    /**
-     * @param JsonHelper $jsonHelper
-     */
     public function __construct(JsonHelper $jsonHelper)
     {
         $this->jsonHelper = $jsonHelper;
     }
 
     /**
-     * @param SplFileInfo $fileInfo
-     *
      * @throws ChassisdefReaderException
      *
      * @return ChassisdefEntity

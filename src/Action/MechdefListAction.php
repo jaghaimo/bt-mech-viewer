@@ -26,11 +26,6 @@ final class MechdefListAction
      */
     private $mechdefService;
 
-    /**
-     * @param MechdefFilter  $mechdefFilter
-     * @param MechdefService $mechdefService
-     * @param ConfigService  $configService
-     */
     public function __construct(
         MechdefFilter $mechdefFilter,
         MechdefService $mechdefService,
@@ -41,12 +36,6 @@ final class MechdefListAction
         $this->configService = $configService;
     }
 
-    /**
-     * @param string $filename
-     * @param array  $filters
-     *
-     * @return MechdefCollection
-     */
     public function handle(string $filename, array $filters = []): MechdefCollection
     {
         $config = $this->configService->getConfig();
@@ -62,9 +51,6 @@ final class MechdefListAction
         );
     }
 
-    /**
-     * @param array $filters
-     */
     private function populateFilters(array $filters): void
     {
         $this->mechdefFilter->setBundle($filters['bundle']);

@@ -7,12 +7,8 @@ namespace Btmv\Utils\Json;
 final class JsonHelper
 {
     /**
-     * @param string $jsonFile
-     *
      * @throws JsonNotReadException
      * @throws JsonNotDecodedException
-     *
-     * @return array
      */
     public function read(string $jsonFile): array
     {
@@ -32,9 +28,6 @@ final class JsonHelper
     }
 
     /**
-     * @param string $jsonFile
-     * @param array  $jsonObject
-     *
      * @throws JsonNotEncodedException
      * @throws JsonNotWrittenException
      */

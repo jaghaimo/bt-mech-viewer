@@ -27,13 +27,9 @@ final class ConfigEntity
     }
 
     /**
-     * @param array $array
-     *
      * @throws ConfigException
-     *
-     * @return ConfigEntity
      */
-    public static function fromArray(array $array)
+    public static function fromArray(array $array): ConfigEntity
     {
         try {
             return new self(

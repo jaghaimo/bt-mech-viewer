@@ -17,20 +17,13 @@ final class ConfigService
      */
     private $jsonHelper;
 
-    /**
-     * @param JsonHelper $jsonHelper
-     */
     public function __construct(JsonHelper $jsonHelper)
     {
         $this->jsonHelper = $jsonHelper;
     }
 
     /**
-     * @param string $configFile
-     *
      * @throws ConfigException
-     *
-     * @return ConfigEntity
      */
     public function getConfig(string $configFile = self::DEFAULT_CONFIG_FILE): ConfigEntity
     {

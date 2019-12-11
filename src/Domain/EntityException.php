@@ -6,12 +6,7 @@ namespace Btmv\Domain;
 
 abstract class EntityException extends \Exception
 {
-    /**
-     * @param \Throwable $throwable
-     *
-     * @return string
-     */
-    public static function getPropertyName(\Throwable $throwable)
+    public static function getPropertyName(\Throwable $throwable): string
     {
         return (string) substr($throwable->getMessage(), 25);
     }

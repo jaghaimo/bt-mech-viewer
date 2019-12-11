@@ -35,10 +35,6 @@ final class MechdefEntity
      */
     private $name;
 
-    /**
-     * @param string $bundle
-     * @param array  $mechdef
-     */
     public function __construct(string $bundle, array $mechdef)
     {
         $this->bundle = $bundle;
@@ -54,9 +50,6 @@ final class MechdefEntity
         return $this->bundle;
     }
 
-    /**
-     * @return string
-     */
     public function getChassisId(): string
     {
         return $this->chassisId;
@@ -67,17 +60,11 @@ final class MechdefEntity
         return $this->id;
     }
 
-    /**
-     * @return MechdefInventory
-     */
     public function getItems(): MechdefInventory
     {
         return $this->inventory;
     }
 
-    /**
-     * @return MechdefLocations
-     */
     public function getLocations(): MechdefLocations
     {
         return $this->locations;

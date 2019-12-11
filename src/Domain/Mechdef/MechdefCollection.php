@@ -45,17 +45,11 @@ final class MechdefCollection implements FilterAwareCollection
         return $this->mechdefEntities;
     }
 
-    /**
-     * @return int
-     */
     public function getMatchingCount(): int
     {
         return $this->matchingCount;
     }
 
-    /**
-     * @return int
-     */
     public function getTotalCount(): int
     {
         return $this->totalCount;

@@ -21,9 +21,6 @@ final class ChassisdefPart
     /** @var int */
     private $maxArmorRear;
 
-    /**
-     * @param array $parts
-     */
     public function __construct(array $parts)
     {
         $this->hardpoints = new ChassisdefHardpoints($parts['Hardpoints']);
@@ -33,43 +30,26 @@ final class ChassisdefPart
         $this->internalStructure = $parts['InternalStructure'];
     }
 
-    /**
-     * @param string $hardpointType
-     *
-     * @return int
-     */
     public function getHardpoints(string $hardpointType): int
     {
         return $this->hardpoints->getHardpoints($hardpointType);
     }
 
-    /**
-     * @return int
-     */
     public function getInternalStructure(): int
     {
         return $this->internalStructure;
     }
 
-    /**
-     * @return string
-     */
     public function getLocation(): string
     {
         return $this->location;
     }
 
-    /**
-     * @return int
-     */
     public function getMaxArmorFront(): int
     {
         return $this->maxArmorFront;
     }
 
-    /**
-     * @return int
-     */
     public function getMaxArmorRear(): int
     {
         return $this->maxArmorRear;

@@ -22,8 +22,6 @@ final class ChassisdefFilter
     private $tonnage;
 
     /**
-     * @param ChassisdefEntity $chassisdefEntity
-     *
      * @return bool
      */
     public function isMatching(ChassisdefEntity $chassisdefEntity)
@@ -48,25 +46,16 @@ final class ChassisdefFilter
         return $isNotBlacklisted && $isMatchingBundle && $isMatchingClass && $isMatchingTonnage;
     }
 
-    /**
-     * @param null|string $bundle
-     */
     public function setBundle(?string $bundle): void
     {
         $this->bundle = $bundle;
     }
 
-    /**
-     * @param null|string $class
-     */
     public function setClass(?string $class): void
     {
         $this->class = $class;
     }
 
-    /**
-     * @param null|int $tonnage
-     */
     public function setTonnage(?int $tonnage): void
     {
         $this->tonnage = $tonnage;

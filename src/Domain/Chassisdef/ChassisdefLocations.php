@@ -20,9 +20,6 @@ final class ChassisdefLocations
      */
     private $parts = [];
 
-    /**
-     * @param array $chassisdefLocations
-     */
     public function __construct(array $chassisdefLocations)
     {
         foreach ($chassisdefLocations as $chassisdefLocation) {
@@ -32,75 +29,46 @@ final class ChassisdefLocations
         }
     }
 
-    /**
-     * @return ChassisdefPart
-     */
     public function getCenterTorso(): ChassisdefPart
     {
         return $this->parts[self::LOCATION_CENTER_TORSO];
     }
 
-    /**
-     * @return ChassisdefPart
-     */
     public function getHead(): ChassisdefPart
     {
         return $this->parts[self::LOCATION_HEAD];
     }
 
-    /**
-     * @return ChassisdefPart
-     */
     public function getLeftArm(): ChassisdefPart
     {
         return $this->parts[self::LOCATION_LEFT_ARM];
     }
 
-    /**
-     * @return ChassisdefPart
-     */
     public function getLeftLeg(): ChassisdefPart
     {
         return $this->parts[self::LOCATION_LEFT_LEG];
     }
 
-    /**
-     * @return ChassisdefPart
-     */
     public function getLeftTorso(): ChassisdefPart
     {
         return $this->parts[self::LOCATION_LEFT_TORSO];
     }
 
-    /**
-     * @return ChassisdefPart
-     */
     public function getRightArm(): ChassisdefPart
     {
         return $this->parts[self::LOCATION_RIGHT_ARM];
     }
 
-    /**
-     * @return ChassisdefPart
-     */
     public function getRightLeg(): ChassisdefPart
     {
         return $this->parts[self::LOCATION_RIGHT_LEG];
     }
 
-    /**
-     * @return ChassisdefPart
-     */
     public function getRightTorso(): ChassisdefPart
     {
         return $this->parts[self::LOCATION_RIGHT_TORSO];
     }
 
-    /**
-     * @param string $hardpointType
-     *
-     * @return int
-     */
     public function getTotalHardpoints(string $hardpointType): int
     {
         $hardpoints = 0;

@@ -51,10 +51,6 @@ final class ChassisdefEntity
      */
     private $variant;
 
-    /**
-     * @param string $bundle
-     * @param array  $chassisdef
-     */
     public function __construct(
         string $bundle,
         array $chassisdef
@@ -71,73 +67,46 @@ final class ChassisdefEntity
         $this->tags = new ChassisdefTags($chassisdef['ChassisTags']);
     }
 
-    /**
-     * @return string
-     */
     public function getBundle(): string
     {
         return $this->bundle;
     }
 
-    /**
-     * @return string
-     */
     public function getClass(): string
     {
         return $this->class;
     }
 
-    /**
-     * @return int
-     */
     public function getCost(): int
     {
         return $this->cost;
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @return ChassisdefLocations
-     */
     public function getLocations(): ChassisdefLocations
     {
         return $this->locations;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return ChassisdefTags
-     */
     public function getTags(): ChassisdefTags
     {
         return $this->tags;
     }
 
-    /**
-     * @return int
-     */
     public function getTonnage(): int
     {
         return $this->tonnage;
     }
 
-    /**
-     * @return string
-     */
     public function getVariant(): string
     {
         return $this->variant;

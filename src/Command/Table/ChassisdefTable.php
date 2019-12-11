@@ -24,9 +24,6 @@ final class ChassisdefTable extends Table
         $this->footerProvider = $footerProvider;
     }
 
-    /**
-     * @param ChassisdefCollection $chassisdefCollection
-     */
     public function setChassisdefs(ChassisdefCollection $chassisdefCollection): void
     {
         $this->setHeaders(
