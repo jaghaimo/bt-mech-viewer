@@ -18,7 +18,7 @@ final class JsonHelper
             throw new JsonNotReadException($jsonFile);
         }
 
-        $configArray = json_decode($config, true);
+        $configArray = json5_decode($config, true);
 
         if (is_array($configArray)) {
             return $configArray;
