@@ -16,7 +16,7 @@ final class ChassisdefListCommand extends Command
     /**
      * @var string
      */
-    protected static $defaultName = 'chassisdef:list';
+    protected static $defaultName = 'def:chassis:list';
 
     /**
      * @var ChassisdefListAction
@@ -39,6 +39,7 @@ final class ChassisdefListCommand extends Command
     {
         parent::configure();
         $this
+            ->setHidden(true)
             ->setDescription('List chassisdefs defined in the configured folder.')
             ->addOption('filename', null, InputOption::VALUE_OPTIONAL, 'Limit output to given chassisdef files', '*')
             ->addOption('bundle', null, InputOption::VALUE_OPTIONAL, 'Filter output based on bundle (string)')

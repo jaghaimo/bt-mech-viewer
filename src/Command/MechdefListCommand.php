@@ -16,7 +16,7 @@ final class MechdefListCommand extends Command
     /**
      * @var string
      */
-    protected static $defaultName = 'mechdef:list';
+    protected static $defaultName = 'def:mech:list';
 
     /**
      * @var MechdefListAction
@@ -39,6 +39,7 @@ final class MechdefListCommand extends Command
     {
         parent::configure();
         $this
+            ->setHidden(true)
             ->setDescription('List mechdefs defined in the configured folder.')
             ->addOption('filename', null, InputOption::VALUE_OPTIONAL, 'Limit output to given mechdef files', '*')
             ->addOption('bundle', null, InputOption::VALUE_OPTIONAL, 'Filter output based on bundle (string)')
