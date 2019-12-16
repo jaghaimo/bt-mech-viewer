@@ -4,25 +4,35 @@ declare(strict_types=1);
 
 namespace Btmv\Domain\Mechdef;
 
-use Symfony\Component\Finder\Finder;
+use Btmv\Domain\Localization\LocalizationService;
+use Btmv\Utils\Finder\FinderHelper;
 
 final class MechdefService
 {
     const MECHDEF_PATTERN = '/^mechdef\_%s\.json$/i';
 
     /**
-     * @var Finder
+     * @var FinderHelper
      */
-    private $finder;
+    private $finderHelper;
+
+    /**
+     * LocalizationService.
+     */
+    private $localizationService;
 
     /**
      * @var MechdefReader
      */
     private $mechdefReader;
 
-    public function __construct(Finder $finder, MechdefReader $mechdefReader)
-    {
-        $this->finder = $finder;
+    public function __construct(
+        FinderHelper $finderHelper,
+        LocalizationService $localizationService,
+        MechdefReader $mechdefReader
+    ) {
+        $this->finderHelper = $finderHelper;
+        $this->localizationService = $localizationService;
         $this->mechdefReader = $mechdefReader;
     }
 
@@ -36,38 +46,20 @@ final class MechdefService
         string $filename,
         MechdefFilter $mechdefFilter
     ): MechdefCollection {
-        $mechdefs = [];
-        $this->configureFinder($includeDirs, $excludeDirs, $filename);
+        $mechdefCollection = new MechdefCollection();
+        $localizationManager = $this->localizationService->getLocalizationManager($includeDirs, $excludeDirs, $filename);
 
-        foreach ($this->finder->getIterator() as $fileInfo) {
+        $name = sprintf(self::MECHDEF_PATTERN, $filename);
+        $finder = $this->finderHelper->configure($includeDirs, $excludeDirs, $name);
+
+        foreach ($finder->getIterator() as $fileInfo) {
             $mechdef = $this->mechdefReader->get($fileInfo);
-            $mechdefs[] = $mechdef;
+            $oldName = $mechdef->getName();
+            $newName = $localizationManager->get($oldName);
+            $mechdef->setName($newName);
+            $mechdefCollection->add($mechdef, $mechdefFilter);
         }
 
-        return new MechdefCollection($mechdefs, $mechdefFilter);
-    }
-
-    /**
-     * @param string[] $includeDirs
-     * @param string[] $excludeDirs
-     */
-    private function configureFinder(array $includeDirs, array $excludeDirs, string $filename): void
-    {
-        $name = sprintf(
-            self::MECHDEF_PATTERN,
-            $this->normalize($filename)
-        );
-
-        $this->finder
-            ->files()
-            ->in($includeDirs)
-            ->exclude($excludeDirs)
-            ->name($name)
-        ;
-    }
-
-    private function normalize(string $filter): string
-    {
-        return strtr($filter, ['*' => '.+']);
+        return $mechdefCollection;
     }
 }

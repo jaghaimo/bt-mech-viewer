@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Btmv\Domain\Chassisdef;
 
-use Symfony\Component\Finder\Finder;
+use Btmv\Domain\Localization\LocalizationService;
+use Btmv\Utils\Finder\FinderHelper;
 
 final class ChassisdefService
 {
@@ -16,14 +17,23 @@ final class ChassisdefService
     private $chassisdefReader;
 
     /**
-     * @var Finder
+     * @var FinderHelper
      */
-    private $finder;
+    private $finderHelper;
 
-    public function __construct(Finder $finder, ChassisdefReader $chassisdefReader)
-    {
-        $this->finder = $finder;
+    /**
+     * @var LocalizationService
+     */
+    private $localizationService;
+
+    public function __construct(
+        FinderHelper $finderHelper,
+        ChassisdefReader $chassisdefReader,
+        LocalizationService $localizationService
+    ) {
+        $this->finderHelper = $finderHelper;
         $this->chassisdefReader = $chassisdefReader;
+        $this->localizationService = $localizationService;
     }
 
     /**
@@ -36,38 +46,20 @@ final class ChassisdefService
         string $filename,
         ChassisdefFilter $chassisdefFilter
     ): ChassisdefCollection {
-        $chassisdefs = [];
-        $this->configureFinder($includeDirs, $excludeDirs, $filename);
+        $chassisdefCollection = new ChassisdefCollection();
+        $localizationManager = $this->localizationService->getLocalizationManager($includeDirs, $excludeDirs, $filename);
 
-        foreach ($this->finder->getIterator() as $fileInfo) {
+        $name = sprintf(self::CHASSISDEF_PATTERN, $filename);
+        $finder = $this->finderHelper->configure($includeDirs, $excludeDirs, $name);
+
+        foreach ($finder->getIterator() as $fileInfo) {
             $chassisdef = $this->chassisdefReader->get($fileInfo);
-            $chassisdefs[] = $chassisdef;
+            $oldName = $chassisdef->getName();
+            $newName = $localizationManager->get($oldName);
+            $chassisdef->setName($newName);
+            $chassisdefCollection->add($chassisdef, $chassisdefFilter);
         }
 
-        return new ChassisdefCollection($chassisdefs, $chassisdefFilter);
-    }
-
-    /**
-     * @param string[] $includeDirs
-     * @param string[] $excludeDirs
-     */
-    private function configureFinder(array $includeDirs, array $excludeDirs, string $filename): void
-    {
-        $name = sprintf(
-            self::CHASSISDEF_PATTERN,
-            $this->normalize($filename)
-        );
-
-        $this->finder
-            ->files()
-            ->in($includeDirs)
-            ->exclude($excludeDirs)
-            ->name($name)
-        ;
-    }
-
-    private function normalize(string $filter): string
-    {
-        return strtr($filter, ['*' => '.+']);
+        return $chassisdefCollection;
     }
 }

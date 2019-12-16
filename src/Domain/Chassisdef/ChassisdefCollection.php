@@ -27,18 +27,6 @@ final class ChassisdefCollection implements FilterAwareCollection
      */
     private $totalCount = 0;
 
-    /**
-     * @param ChassisdefEntity[] $chasisdefEntities
-     *
-     * @return ChassisdefCollection
-     */
-    public function __construct(array $chasisdefEntities, ChassisdefFilter $chassisdefFilter)
-    {
-        foreach ($chasisdefEntities as $chasisdefEntity) {
-            $this->add($chasisdefEntity, $chassisdefFilter);
-        }
-    }
-
     public function add(ChassisdefEntity $chassisdefEntity, ChassisdefFilter $chassisdefFilter): void
     {
         ++$this->totalCount;

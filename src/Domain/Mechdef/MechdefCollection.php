@@ -26,10 +26,15 @@ final class MechdefCollection implements FilterAwareCollection
      */
     private $totalCount = 0;
 
-    public function __construct(array $chasisdefEntities, MechdefFilter $mechdefFilter)
+    public function add(MechdefEntity $mechdefEntity, MechdefFilter $mechdefFilter): void
     {
-        foreach ($chasisdefEntities as $chasisdefEntity) {
-            $this->add($chasisdefEntity, $mechdefFilter);
+        ++$this->totalCount;
+
+        if ($mechdefFilter->isMatching($mechdefEntity)) {
+            ++$this->matchingCount;
+            $key = $mechdefEntity->getId();
+            $this->mechdefEntities[$key] = $mechdefEntity;
+            $this->isSorted = false;
         }
     }
 
@@ -53,18 +58,6 @@ final class MechdefCollection implements FilterAwareCollection
     public function getTotalCount(): int
     {
         return $this->totalCount;
-    }
-
-    private function add(MechdefEntity $mechdefEntity, MechdefFilter $mechdefFilter): void
-    {
-        ++$this->totalCount;
-
-        if ($mechdefFilter->isMatching($mechdefEntity)) {
-            ++$this->matchingCount;
-            $key = $mechdefEntity->getId();
-            $this->mechdefEntities[$key] = $mechdefEntity;
-            $this->isSorted = false;
-        }
     }
 
     private function sort(): void

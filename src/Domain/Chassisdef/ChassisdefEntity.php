@@ -111,4 +111,9 @@ final class ChassisdefEntity
     {
         return $this->variant;
     }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
 }
