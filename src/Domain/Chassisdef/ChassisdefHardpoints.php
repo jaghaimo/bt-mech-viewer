@@ -36,6 +36,10 @@ final class ChassisdefHardpoints
     public function __construct(array $hardpoints)
     {
         foreach ($hardpoints as $hardpoint) {
+            if (!array_key_exists('WeaponMount', $hardpoint)) {
+                continue;
+            }
+
             $isOmni = $hardpoint['Omni'];
             $weaponMount = strtolower($hardpoint['WeaponMount']);
 
