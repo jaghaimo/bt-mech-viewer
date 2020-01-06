@@ -4,35 +4,36 @@ declare(strict_types=1);
 
 namespace Btmv\Command;
 
-use Btmv\Action\ChassisdefListAction;
-use Btmv\Command\Table\ChassisdefTable;
+use Btmv\Action\MechListAction;
+use Btmv\Command\Table\MechTable;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class ChassisdefListCommand extends Command
+final class MechListCommand extends Command
 {
-    /** @var string */
-    protected static $defaultName = 'def:chassis:list';
-    private ChassisdefListAction $chassisdefListAction;
-    private ChassisdefTable $chassisdefTable;
+    /**
+     * @var string
+     */
+    protected static $defaultName = 'mech:list';
 
-    public function __construct(ChassisdefListAction $chassisdefListAction, ChassisdefTable $chassisdefTable)
+    private MechListAction $mechListAction;
+
+    private MechTable $mechTable;
+
+    public function __construct(MechListAction $mechListAction, MechTable $mechTable)
     {
         parent::__construct();
-        $this->chassisdefListAction = $chassisdefListAction;
-        $this->chassisdefTable = $chassisdefTable;
+        $this->mechListAction = $mechListAction;
+        $this->mechTable = $mechTable;
     }
 
     protected function configure(): void
     {
         parent::configure();
         $this
-            ->setHidden(true)
-            ->setDescription('List chassisdefs defined in the configured folder.')
-            ->addOption('filename', null, InputOption::VALUE_OPTIONAL, 'Limit output to given chassisdef files', '*')
-            ->addOption('bundle', null, InputOption::VALUE_OPTIONAL, 'Filter output based on bundle (string)')
+            ->setDescription('List mechs defined in the configured folder.')
             ->addOption('class', null, InputOption::VALUE_OPTIONAL, 'Filter output based on class (string)')
             ->addOption('tonnage', null, InputOption::VALUE_OPTIONAL, 'Filter output based on tonnage (integer)')
         ;
@@ -40,13 +41,12 @@ final class ChassisdefListCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $filename = (string) $this->getInputValue($input, 'filename');
         $filters = $this->getFilters($input);
 
-        $chassisdefs = $this->chassisdefListAction->handle($filename, $filters);
+        $mechs = $this->mechListAction->handle($filters);
 
-        $this->chassisdefTable->setChassisdefs($chassisdefs);
-        $this->chassisdefTable->render();
+        $this->mechTable->setMechs($mechs);
+        $this->mechTable->render();
 
         return 0;
     }
@@ -54,7 +54,6 @@ final class ChassisdefListCommand extends Command
     private function getFilters(InputInterface $input): array
     {
         return [
-            'bundle' => $this->getInputValue($input, 'bundle'),
             'class' => $this->getInputValue($input, 'class'),
             'tonnage' => $this->getInputValue($input, 'tonnage'),
         ];

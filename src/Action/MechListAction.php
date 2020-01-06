@@ -4,32 +4,32 @@ declare(strict_types=1);
 
 namespace Btmv\Action;
 
-use Btmv\Domain\Chassisdef\ChassisdefCollection;
-use Btmv\Domain\Chassisdef\ChassisdefFilter;
-use Btmv\Domain\Chassisdef\ChassisdefService;
 use Btmv\Domain\Config\ConfigService;
 use Btmv\Domain\Localization\LocalizationService;
+use Btmv\Domain\Mech\MechCollection;
+use Btmv\Domain\Mech\MechFilter;
+use Btmv\Domain\Mech\MechService;
 
-final class ChassisdefListAction
+final class MechListAction
 {
-    private ChassisdefFilter $chassisdefFilter;
-    private ChassisdefService $chassisdefService;
     private ConfigService $configService;
     private LocalizationService $localizationService;
+    private MechFilter $mechFilter;
+    private MechService $mechService;
 
     public function __construct(
-        ChassisdefFilter $chassisdefFilter,
-        ChassisdefService $chassisdefService,
+        MechFilter $mechFilter,
+        MechService $mechService,
         LocalizationService $localizationService,
         ConfigService $configService
     ) {
-        $this->chassisdefFilter = $chassisdefFilter;
-        $this->chassisdefService = $chassisdefService;
+        $this->mechFilter = $mechFilter;
+        $this->mechService = $mechService;
         $this->localizationService = $localizationService;
         $this->configService = $configService;
     }
 
-    public function handle(string $filename, array $filters = []): ChassisdefCollection
+    public function handle(array $filters = []): MechCollection
     {
         $config = $this->configService->getConfig();
         $modsDirectory = $config->getIncludeDirectories();
@@ -37,19 +37,17 @@ final class ChassisdefListAction
         $this->populateFilters($filters);
         $localizationManager = $this->localizationService->getLocalizationManager($modsDirectory, $excludeDirs);
 
-        return $this->chassisdefService->findChassisdefs(
+        return $this->mechService->findMechs(
             $modsDirectory,
             $excludeDirs,
-            $filename,
-            $localizationManager,
-            $this->chassisdefFilter
+            $this->mechFilter,
+            $localizationManager
         );
     }
 
     private function populateFilters(array $filters): void
     {
-        $this->chassisdefFilter->setBundle($filters['bundle']);
-        $this->chassisdefFilter->setClass($filters['class']);
-        $this->chassisdefFilter->setTonnage((int) $filters['tonnage']);
+        $this->mechFilter->setClass($filters['class']);
+        $this->mechFilter->setTonnage($filters['tonnage']);
     }
 }

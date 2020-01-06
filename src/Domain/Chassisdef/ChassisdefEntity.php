@@ -6,50 +6,15 @@ namespace Btmv\Domain\Chassisdef;
 
 final class ChassisdefEntity
 {
-    /**
-     * @var string
-     */
-    private $bundle;
-
-    /**
-     * @var string
-     */
-    private $class;
-
-    /**
-     * @var int
-     */
-    private $cost;
-
-    /**
-     * @var string
-     */
-    private $id;
-
-    /**
-     * @var ChassisdefLocations
-     */
-    private $locations;
-
-    /**
-     * @var string
-     */
-    private $name;
-
-    /**
-     * @var ChassisdefTags
-     */
-    private $tags;
-
-    /**
-     * @var int
-     */
-    private $tonnage;
-
-    /**
-     * @var string
-     */
-    private $variant;
+    private string $bundle;
+    private string $class;
+    private int $cost;
+    private string $id;
+    private ChassisdefLocations $locations;
+    private string $name;
+    private ChassisdefTags $tags;
+    private int $tonnage;
+    private string $variant;
 
     public function __construct(
         string $bundle,

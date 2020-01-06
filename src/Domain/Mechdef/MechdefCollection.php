@@ -8,29 +8,18 @@ use Btmv\Domain\FilterAwareCollection;
 
 final class MechdefCollection implements FilterAwareCollection
 {
-    /**
-     * @var bool
-     */
-    private $isSorted = false;
-    /**
-     * @var int
-     */
-    private $matchingCount = 0;
-    /**
-     * @var MechdefEntity[]
-     */
-    private $mechdefEntities = [];
+    private bool $isSorted = false;
+    private int $matchingCount = 0;
+    /** @var MechdefEntity[] */
+    private array $mechdefEntities = [];
+    private int $totalCount = 0;
 
-    /**
-     * @var int
-     */
-    private $totalCount = 0;
-
-    public function add(MechdefEntity $mechdefEntity, MechdefFilter $mechdefFilter): void
+    public function add(MechdefEntity $mechdefEntity, ?MechdefFilter $mechdefFilter): void
     {
         ++$this->totalCount;
+        $isMatching = is_null($mechdefFilter) || $mechdefFilter->isMatching($mechdefEntity);
 
-        if ($mechdefFilter->isMatching($mechdefEntity)) {
+        if ($isMatching) {
             ++$this->matchingCount;
             $key = $mechdefEntity->getId();
             $this->mechdefEntities[$key] = $mechdefEntity;
@@ -41,9 +30,11 @@ final class MechdefCollection implements FilterAwareCollection
     /**
      * @return MechdefEntity[]
      */
-    public function getAll(): array
+    public function getAll(bool $wantsSorting = true): array
     {
-        if (!$this->isSorted) {
+        $needsSorting = $wantsSorting && !$this->isSorted;
+
+        if ($needsSorting) {
             $this->sort();
         }
 

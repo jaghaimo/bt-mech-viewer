@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Btmv\Command\Table;
 
-use Btmv\Domain\Chassisdef\ChassisdefCollection;
 use Btmv\Domain\Chassisdef\ChassisdefHardpoints;
+use Btmv\Domain\Mech\MechCollection;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
-final class ChassisdefTable extends Table
+final class MechTable extends Table
 {
-    const ENTITES = 'chassisdef';
+    const ENTITES = 'mech';
 
     /**
      * @var FilterAwareCollectionFooter
@@ -24,16 +24,16 @@ final class ChassisdefTable extends Table
         $this->footerProvider = $footerProvider;
     }
 
-    public function setChassisdefs(ChassisdefCollection $chassisdefCollection): void
+    public function setMechs(MechCollection $mechCollection): void
     {
         $this->setHeaders(
-            ['ID', 'Class', 'Tonnage', 'Name', 'Variant', 'Tags', 'Cost', 'B', 'E', 'M', 'S', 'Bundle']
+            ['Class', 'Tonnage', 'Name', 'Variant', 'Tags', 'Cost', 'B', 'E', 'M', 'S', 'Bundle']
         );
-        $chassisdefEntities = $chassisdefCollection->getAll();
+        $mechEntities = $mechCollection->getAll();
 
-        foreach ($chassisdefEntities as $chassisdefEntity) {
+        foreach ($mechEntities as $mechEntity) {
+            $chassisdefEntity = $mechEntity->getChassisdefEntity();
             $this->addRow([
-                $chassisdefEntity->getId(),
                 $chassisdefEntity->getClass(),
                 $chassisdefEntity->getTonnage(),
                 $chassisdefEntity->getName(),
@@ -48,7 +48,7 @@ final class ChassisdefTable extends Table
             ]);
         }
 
-        $footer = $this->footerProvider->getFooter($chassisdefCollection, self::ENTITES);
+        $footer = $this->footerProvider->getFooter($mechCollection, self::ENTITES);
         $this->setFooterTitle($footer);
     }
 }

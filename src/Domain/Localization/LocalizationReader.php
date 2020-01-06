@@ -9,10 +9,7 @@ use Symfony\Component\Finder\SplFileInfo;
 
 final class LocalizationReader
 {
-    /**
-     * @var JsonHelper
-     */
-    private $jsonHelper;
+    private JsonHelper $jsonHelper;
 
     public function __construct(JsonHelper $jsonHelper)
     {

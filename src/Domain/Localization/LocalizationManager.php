@@ -8,10 +8,8 @@ final class LocalizationManager
 {
     const KEY_PATTERN = '__/%s/__';
 
-    /**
-     * @var array<string,string>
-     */
-    private $localizations = [];
+    /** @var array<string,string> */
+    private array $localizations = [];
 
     /**
      * @param array<string,string> $localizations

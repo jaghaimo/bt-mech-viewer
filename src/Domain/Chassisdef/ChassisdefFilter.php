@@ -6,25 +6,11 @@ namespace Btmv\Domain\Chassisdef;
 
 final class ChassisdefFilter
 {
-    /**
-     * @var null|string
-     */
-    private $bundle;
+    private ?string $bundle = null;
+    private ?string $class = null;
+    private ?int $tonnage = null;
 
-    /**
-     * @var null|string
-     */
-    private $class;
-
-    /**
-     * @var null|int
-     */
-    private $tonnage;
-
-    /**
-     * @return bool
-     */
-    public function isMatching(ChassisdefEntity $chassisdefEntity)
+    public function isMatching(ChassisdefEntity $chassisdefEntity): bool
     {
         $isNotBlacklisted = !$chassisdefEntity->getTags()->isBlacklisted();
         $isMatchingBundle = true;

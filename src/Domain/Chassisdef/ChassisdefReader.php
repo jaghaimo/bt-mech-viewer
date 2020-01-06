@@ -12,10 +12,7 @@ final class ChassisdefReader
     // Location where bundle information is stored (relative to chassidef file)
     const BUNDLE_OFFSET = 3;
 
-    /**
-     * @var JsonHelper
-     */
-    private $jsonHelper;
+    private JsonHelper $jsonHelper;
 
     public function __construct(JsonHelper $jsonHelper)
     {
@@ -24,10 +21,8 @@ final class ChassisdefReader
 
     /**
      * @throws ChassisdefReaderException
-     *
-     * @return ChassisdefEntity
      */
-    public function get(SplFileInfo $fileInfo)
+    public function get(SplFileInfo $fileInfo): ChassisdefEntity
     {
         $chassisdefPath = $fileInfo->getRealPath();
         $chassisdefChunks = explode(DIRECTORY_SEPARATOR, $chassisdefPath);

@@ -21,10 +21,7 @@ final class ChassisdefTags
     const TAG_SOCIETY = 'societymech';
     const TAG_SUPERHEAVY = 'superheavy';
 
-    /**
-     * @var array
-     */
-    private $tags = [];
+    private array $tags = [];
 
     public function __construct(array $tags)
     {

@@ -12,10 +12,7 @@ final class ConfigService
 {
     const DEFAULT_CONFIG_FILE = 'btmv.json';
 
-    /**
-     * @var JsonHelper
-     */
-    private $jsonHelper;
+    private JsonHelper $jsonHelper;
 
     public function __construct(JsonHelper $jsonHelper)
     {

@@ -4,35 +4,21 @@ declare(strict_types=1);
 
 namespace Btmv\Domain\Mechdef;
 
-use Btmv\Domain\Localization\LocalizationService;
+use Btmv\Domain\Localization\LocalizationManager;
 use Btmv\Utils\Finder\FinderHelper;
 
 final class MechdefService
 {
     const MECHDEF_PATTERN = '/^mechdef\_%s\.json$/i';
 
-    /**
-     * @var FinderHelper
-     */
-    private $finderHelper;
-
-    /**
-     * LocalizationService.
-     */
-    private $localizationService;
-
-    /**
-     * @var MechdefReader
-     */
-    private $mechdefReader;
+    private FinderHelper $finderHelper;
+    private MechdefReader $mechdefReader;
 
     public function __construct(
         FinderHelper $finderHelper,
-        LocalizationService $localizationService,
         MechdefReader $mechdefReader
     ) {
         $this->finderHelper = $finderHelper;
-        $this->localizationService = $localizationService;
         $this->mechdefReader = $mechdefReader;
     }
 
@@ -44,10 +30,10 @@ final class MechdefService
         array $includeDirs,
         array $excludeDirs,
         string $filename,
-        MechdefFilter $mechdefFilter
+        LocalizationManager $localizationManager,
+        ?MechdefFilter $mechdefFilter
     ): MechdefCollection {
         $mechdefCollection = new MechdefCollection();
-        $localizationManager = $this->localizationService->getLocalizationManager($includeDirs, $excludeDirs, $filename);
 
         $name = sprintf(self::MECHDEF_PATTERN, $filename);
         $finder = $this->finderHelper->configure($includeDirs, $excludeDirs, $name);

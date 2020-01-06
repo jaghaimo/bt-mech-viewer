@@ -22,16 +22,19 @@ final class FinderHelper
      * @param string[] $includeDirs
      * @param string[] $excludeDirs
      */
-    public function configure(array $includeDirs, array $excludeDirs, string $filename): Finder
+    public function configure(array $includeDirs, array $excludeDirs, ?string $filename): Finder
     {
         $finder = clone $this->finder;
-        $name = $this->normalize($filename);
         $finder
             ->files()
             ->in($includeDirs)
             ->exclude($excludeDirs)
-            ->name($name)
         ;
+
+        if (!is_null($filename)) {
+            $name = $this->normalize($filename);
+            $finder->name($name);
+        }
 
         return $finder;
     }

@@ -10,15 +10,8 @@ final class LocalizationService
 {
     const LOCALIZATION_PATTERN = '/^Localization.json$/i';
 
-    /**
-     * @var FinderHelper
-     */
-    private $finderHelper;
-
-    /**
-     * @var LocalizationReader
-     */
-    private $localizationReader;
+    private FinderHelper $finderHelper;
+    private LocalizationReader $localizationReader;
 
     public function __construct(FinderHelper $finderHelper, LocalizationReader $localizationReader)
     {
@@ -30,7 +23,7 @@ final class LocalizationService
      * @param string[] $includeDirs
      * @param string[] $excludeDirs
      */
-    public function getLocalizationManager(array $includeDirs, array $excludeDirs, string $filename): LocalizationManager
+    public function getLocalizationManager(array $includeDirs, array $excludeDirs): LocalizationManager
     {
         $localizationManager = new LocalizationManager();
         $finder = $this->finderHelper->configure($includeDirs, $excludeDirs, self::LOCALIZATION_PATTERN);

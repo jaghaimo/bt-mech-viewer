@@ -4,20 +4,11 @@ declare(strict_types=1);
 
 namespace Btmv\Domain\Chassisdef;
 
+use Btmv\Domain\Mech\MechEntity;
+
 final class ChassisdefLocations
 {
-    const LOCATION_CENTER_TORSO = 'CenterTorso';
-    const LOCATION_HEAD = 'Head';
-    const LOCATION_LEFT_ARM = 'LeftArm';
-    const LOCATION_LEFT_LEG = 'LeftLeg';
-    const LOCATION_LEFT_TORSO = 'LeftTorso';
-    const LOCATION_RIGHT_ARM = 'RightArm';
-    const LOCATION_RIGHT_LEG = 'RightLeg';
-    const LOCATION_RIGHT_TORSO = 'RightTorso';
-
-    /**
-     * @var ChassisdefPart[]
-     */
+    /** @var ChassisdefPart[] */
     private $parts = [];
 
     public function __construct(array $chassisdefLocations)
@@ -31,42 +22,42 @@ final class ChassisdefLocations
 
     public function getCenterTorso(): ChassisdefPart
     {
-        return $this->parts[self::LOCATION_CENTER_TORSO];
+        return $this->parts[MechEntity::LOCATION_CENTER_TORSO];
     }
 
     public function getHead(): ChassisdefPart
     {
-        return $this->parts[self::LOCATION_HEAD];
+        return $this->parts[MechEntity::LOCATION_HEAD];
     }
 
     public function getLeftArm(): ChassisdefPart
     {
-        return $this->parts[self::LOCATION_LEFT_ARM];
+        return $this->parts[MechEntity::LOCATION_LEFT_ARM];
     }
 
     public function getLeftLeg(): ChassisdefPart
     {
-        return $this->parts[self::LOCATION_LEFT_LEG];
+        return $this->parts[MechEntity::LOCATION_LEFT_LEG];
     }
 
     public function getLeftTorso(): ChassisdefPart
     {
-        return $this->parts[self::LOCATION_LEFT_TORSO];
+        return $this->parts[MechEntity::LOCATION_LEFT_TORSO];
     }
 
     public function getRightArm(): ChassisdefPart
     {
-        return $this->parts[self::LOCATION_RIGHT_ARM];
+        return $this->parts[MechEntity::LOCATION_RIGHT_ARM];
     }
 
     public function getRightLeg(): ChassisdefPart
     {
-        return $this->parts[self::LOCATION_RIGHT_LEG];
+        return $this->parts[MechEntity::LOCATION_RIGHT_LEG];
     }
 
     public function getRightTorso(): ChassisdefPart
     {
-        return $this->parts[self::LOCATION_RIGHT_TORSO];
+        return $this->parts[MechEntity::LOCATION_RIGHT_TORSO];
     }
 
     public function getTotalHardpoints(string $hardpointType): int

@@ -2,48 +2,39 @@
 
 declare(strict_types=1);
 
-namespace Btmv\Domain\Chassisdef;
+namespace Btmv\Domain\Mech;
 
 use Btmv\Domain\FilterAwareCollection;
 
-final class ChassisdefCollection implements FilterAwareCollection
+final class MechCollection implements FilterAwareCollection
 {
-    /** @var ChassisdefEntity[] */
-    private array $chassisdefEntities = [];
     private bool $isSorted = false;
     private int $matchingCount = 0;
+    /** @var MechEntity[] */
+    private array $mechEntities = [];
     private int $totalCount = 0;
 
-    public function add(ChassisdefEntity $chassisdefEntity, ?ChassisdefFilter $chassisdefFilter): void
+    public function add(MechEntity $mechEntity, MechFilter $mechFilter): void
     {
         ++$this->totalCount;
-        $isMatching = is_null($chassisdefFilter) || $chassisdefFilter->isMatching($chassisdefEntity);
 
-        if ($isMatching) {
+        if ($mechFilter->isMatching($mechEntity)) {
             ++$this->matchingCount;
-            $key = $chassisdefEntity->getId();
-            $this->chassisdefEntities[$key] = $chassisdefEntity;
+            $this->mechEntities[] = $mechEntity;
             $this->isSorted = false;
         }
     }
 
-    public function get(string $key): ?ChassisdefEntity
-    {
-        return $this->chassisdefEntities[$key] ?? null;
-    }
-
     /**
-     * @return ChassisdefEntity[]
+     * @return MechEntity[]
      */
-    public function getAll(bool $wantsSorting = true): array
+    public function getAll(): array
     {
-        $needsSorting = $wantsSorting && !$this->isSorted;
-
-        if ($needsSorting) {
+        if (!$this->isSorted) {
             $this->sort();
         }
 
-        return $this->chassisdefEntities;
+        return $this->mechEntities;
     }
 
     public function getMatchingCount(): int
@@ -63,8 +54,10 @@ final class ChassisdefCollection implements FilterAwareCollection
         }
 
         uasort(
-            $this->chassisdefEntities,
-            function (ChassisdefEntity $entity1, ChassisdefEntity $entity2) {
+            $this->mechEntities,
+            function (MechEntity $mech1, MechEntity $mech2) {
+                $entity1 = $mech1->getChassisdefEntity();
+                $entity2 = $mech2->getChassisdefEntity();
                 if ($entity1->getTonnage() !== $entity2->getTonnage()) {
                     return $entity1->getTonnage() <=> $entity2->getTonnage();
                 }

@@ -11,27 +11,11 @@ final class ChassisdefHardpoints
     const HARDPOINT_ENERGY = 'energy';
     const HARDPOINT_MISSILE = 'missile';
 
-    /**
-     * @var int
-     */
-    private $antiPersonnel = 0;
-    /**
-     * @var int
-     */
-    private $ballistic = 0;
-
-    /**
-     * @var int
-     */
-    private $energy = 0;
-    /**
-     * @var bool
-     */
-    private $isOmni = false;
-    /**
-     * @var int
-     */
-    private $missile = 0;
+    private int $antiPersonnel = 0;
+    private int $ballistic = 0;
+    private int $energy = 0;
+    private bool $isOmni = false;
+    private int $missile = 0;
 
     public function __construct(array $hardpoints)
     {

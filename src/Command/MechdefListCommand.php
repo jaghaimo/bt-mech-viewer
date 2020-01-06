@@ -13,20 +13,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class MechdefListCommand extends Command
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected static $defaultName = 'def:mech:list';
-
-    /**
-     * @var MechdefListAction
-     */
-    private $mechdefListAction;
-
-    /**
-     * @var MechdefTable
-     */
-    private $mechdefTable;
+    private MechdefListAction $mechdefListAction;
+    private MechdefTable $mechdefTable;
 
     public function __construct(MechdefListAction $mechdefListAction, MechdefTable $mechdefTable)
     {

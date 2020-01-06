@@ -6,13 +6,16 @@ namespace Btmv\Domain\Mechdef;
 
 final class MechdefItem
 {
-    /**
-     * @var string
-     */
-    private $location;
+    private string $location;
 
     public function __construct(array $item)
     {
+        // TODO: Finish inventory
         $this->location = $item['MountedLocation'];
+    }
+
+    public function getLocation(): string
+    {
+        return $this->location;
     }
 }

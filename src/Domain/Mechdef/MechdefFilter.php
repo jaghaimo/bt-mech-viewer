@@ -6,10 +6,7 @@ namespace Btmv\Domain\Mechdef;
 
 final class MechdefFilter
 {
-    /**
-     * @var null|string
-     */
-    private $bundle;
+    private ?string $bundle = null;
 
     public function isMatching(MechdefEntity $entity): bool
     {

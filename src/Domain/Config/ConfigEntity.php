@@ -6,15 +6,10 @@ namespace Btmv\Domain\Config;
 
 final class ConfigEntity
 {
-    /**
-     * @var string[]
-     */
-    private $excludeDirectories;
-
-    /**
-     * @var string[]
-     */
-    private $includeDirectories;
+    /** @var string[] */
+    private array $excludeDirectories;
+    /** @var string[] */
+    private array $includeDirectories;
 
     /**
      * @param string[] $includeDirectories

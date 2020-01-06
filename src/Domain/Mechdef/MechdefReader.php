@@ -12,10 +12,7 @@ final class MechdefReader
     // Location where bundle information is stored (relative to chassidef file)
     const BUNDLE_OFFSET = 3;
 
-    /**
-     * @var JsonHelper
-     */
-    private $jsonHelper;
+    private JsonHelper $jsonHelper;
 
     public function __construct(JsonHelper $jsonHelper)
     {

@@ -6,20 +6,11 @@ namespace Btmv\Domain\Chassisdef;
 
 final class ChassisdefPart
 {
-    /** @var ChassisdefHardpoints */
-    private $hardpoints;
-
-    /** @var int */
-    private $internalStructure;
-
-    /** @var string */
-    private $location;
-
-    /** @var int */
-    private $maxArmorFront;
-
-    /** @var int */
-    private $maxArmorRear;
+    private ChassisdefHardpoints $hardpoints;
+    private int $internalStructure;
+    private string $location;
+    private int $maxArmorFront;
+    private int $maxArmorRear;
 
     public function __construct(array $parts)
     {
